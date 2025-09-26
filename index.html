@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="index.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 </head>
 <body>
     <!-- Particle Background -->
@@ -110,6 +112,28 @@
 
         <!-- Dashboard -->
         <section id="dashboard" class="dashboard" style="display: none;">
+            <!-- Bottom Navigation -->
+            <nav class="bottom-nav glass-morphism">
+                <div class="nav-items">
+                    <button class="nav-item active" onclick="showPage('home')" data-page="home">
+                        <i class="fas fa-home nav-icon"></i>
+                        <span class="nav-text">ပင်မ</span>
+                    </button>
+                    <button class="nav-item" onclick="showPage('history')" data-page="history">
+                        <i class="fas fa-history nav-icon"></i>
+                        <span class="nav-text">မှတ်တမ်း</span>
+                    </button>
+                    <button class="nav-item" onclick="showPage('news')" data-page="news">
+                        <i class="fas fa-newspaper nav-icon"></i>
+                        <span class="nav-text">သတင်း</span>
+                    </button>
+                    <button class="nav-item" onclick="showPage('mi')" data-page="mi">
+                        <i class="fas fa-user nav-icon"></i>
+                        <span class="nav-text">ကျွန်ုပ်</span>
+                    </button>
+                </div>
+            </nav>
+
             <!-- Home Page -->
             <div id="homePage" class="page-content active">
                 <div class="page-header">
@@ -210,7 +234,7 @@
 
                 <div class="section cyber-section">
                     <div class="section-header">
-                        <h3 class="section-title rainbow-text">ကျွန်ုပ်တို့အကြောင်း</h3>
+                        <h3 class="section-title rainbow-text">ကျွန်ুပ်တို့အကြောင်း</h3>
                         <div class="section-line neon-line"></div>
                     </div>
                     <div class="contact-grid" id="contactList">
@@ -219,10 +243,10 @@
                 </div>
             </div>
 
-            <!-- Product Pages -->
+            <!-- Product Pages (Page-specific content) -->
             <div class="product-pages">
                 <!-- PUBG UC Page -->
-                <div id="pubgUcPage" class="product-page">
+                <div id="pubgUcPage" class="product-page" style="display: none;">
                     <div class="page-header">
                         <button class="back-btn cyber-btn" onclick="goBack()">
                             <i class="fas fa-arrow-left"></i>
@@ -242,24 +266,21 @@
                                 <div class="input-highlight"></div>
                             </div>
                             <button class="btn btn-verify cyber-btn" onclick="verifyGameId('pubg')">
-                                <span class="btn-text">အတည်ပြုပါ</span>
+                                <span class="btn-text">အတည်ပြုရန်</span>
                                 <div class="btn-glow"></div>
                             </button>
                         </div>
+                    </div>
 
-                        <div class="products-grid" id="pubgProducts">
-                            <!-- Dynamic content -->
+                    <div class="section cyber-section">
+                        <div class="product-grid" id="pubgProducts">
+                            <!-- Dynamic PUBG products -->
                         </div>
-
-                        <button class="btn btn-primary cyber-btn buy-btn" id="buyPubgBtn" onclick="buyProduct('pubg')" style="display: none;">
-                            <span class="btn-text">ဝယ်ယူပါ</span>
-                            <div class="btn-glow"></div>
-                        </button>
                     </div>
                 </div>
 
-                <!-- Mobile Legends Diamond Page -->
-                <div id="mlDiamondPage" class="product-page">
+                <!-- Mobile Legends Page -->
+                <div id="mlPage" class="product-page" style="display: none;">
                     <div class="page-header">
                         <button class="back-btn cyber-btn" onclick="goBack()">
                             <i class="fas fa-arrow-left"></i>
@@ -271,12 +292,12 @@
                     <div class="section cyber-section">
                         <div class="user-id-section glass-morphism-strong">
                             <div class="section-header">
-                                <h4 class="section-title rainbow-text">Game Information</h4>
+                                <h4 class="section-title rainbow-text">Game User ID & Server</h4>
                             </div>
                             <div class="input-grid">
                                 <div class="input-group floating-input">
                                     <input type="text" class="cyber-input" id="mlUserId" placeholder=" " required>
-                                    <label class="input-label">User ID</label>
+                                    <label class="input-label">Mobile Legends User ID</label>
                                     <div class="input-highlight"></div>
                                 </div>
                                 <div class="input-group floating-input">
@@ -286,155 +307,60 @@
                                 </div>
                             </div>
                             <button class="btn btn-verify cyber-btn" onclick="verifyGameId('ml')">
-                                <span class="btn-text">အတည်ပြုပါ</span>
+                                <span class="btn-text">အတည်ပြုရန်</span>
                                 <div class="btn-glow"></div>
                             </button>
                         </div>
-
-                        <div class="products-grid" id="mlProducts">
-                            <!-- Dynamic content -->
-                        </div>
-
-                        <button class="btn btn-primary cyber-btn buy-btn" id="buyMlBtn" onclick="buyProduct('ml')" style="display: none;">
-                            <span class="btn-text">ဝယ်ယူပါ</span>
-                            <div class="btn-glow"></div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- All Products Page -->
-                <div id="allProductsPage" class="product-page">
-                    <div class="page-header">
-                        <button class="back-btn cyber-btn" onclick="goBack()">
-                            <i class="fas fa-arrow-left"></i>
-                            <span>နောက်သို့</span>
-                        </button>
-                        <h1 class="page-title holographic-text">All Products</h1>
                     </div>
 
                     <div class="section cyber-section">
-                        <div class="all-products-content" id="allProductsContent">
-                            <!-- Dynamic content -->
+                        <div class="product-grid" id="mlProducts">
+                            <!-- Dynamic ML products -->
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav glass-morphism">
-            <div class="nav-container">
-                <div class="nav-item active" onclick="showPage('home')" data-page="home">
-                    <div class="nav-icon">
-                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/ae18f90ecc1d48ed62d05bfca7876a2401742b36/home-icon.png" alt="Home">
-                    </div>
-                    <div class="nav-label">ပင်မ</div>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="showPage('history')" data-page="history">
-                    <div class="nav-icon">
-                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/history-icon.png" alt="History">
-                    </div>
-                    <div class="nav-label">မှတ်တမ်း</div>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="showPage('news')" data-page="news">
-                    <div class="nav-icon">
-                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/News-icon.png" alt="News">
-                    </div>
-                    <div class="nav-label">သတင်း</div>
-                    <div class="nav-indicator"></div>
-                </div>
-                <div class="nav-item" onclick="showPage('mi')" data-page="mi">
-                    <div class="nav-icon">
-                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/Mi-icon.png" alt="Profile">
-                    </div>
-                    <div class="nav-label">ကျွန်ုပ်</div>
-                    <div class="nav-indicator"></div>
-                </div>
-            </div>
-        </nav>
-    </div>
-
-    <!-- Payment Modal -->
-    <div id="paymentModal" class="modal">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content glass-morphism-strong">
-            <div class="modal-header">
-                <h3 class="modal-title rainbow-text">ငွေပေးချေမှု</h3>
-                <button class="modal-close cyber-btn" onclick="closePaymentModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="payment-methods" id="paymentMethods">
-                    <!-- Dynamic payment methods -->
-                </div>
-                <div class="payment-info" id="paymentInfo">
-                    <!-- Payment details -->
-                </div>
-                <div class="input-group floating-input" id="referenceGroup" style="display: none;">
-                    <input type="text" class="cyber-input" id="paymentReference" placeholder=" " maxlength="6" required>
-                    <label class="input-label">ငွေလွှဲမှုအမှတ် (နောက်ဆုံးဂဏန်း ၆ လုံး)</label>
-                    <div class="input-highlight"></div>
-                </div>
-                <button class="btn btn-primary cyber-btn" id="submitOrder" onclick="submitOrder()" style="display: none;">
-                    <span class="btn-text">မှာယူမှုတင်သွင်းမည်</span>
-                    <div class="btn-glow"></div>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Device Verification Modal -->
-    <div id="deviceVerificationModal" class="modal verification-modal" style="display: none;">
-        <div class="modal-backdrop"></div>
-        <div class="modal-content glass-morphism-strong">
-            <div class="verification-header">
-                <div class="verification-icon">
-                    <div class="security-shield">
-                        <i class="fas fa-shield-alt"></i>
-                        <div class="shield-pulse"></div>
-                    </div>
-                </div>
-                <h3 class="verification-title neon-text">စက်ပစ္စည်းအတည်ပြုခြင်း</h3>
-                <p class="verification-subtitle">သင့်အကောင့်သို့ အခြားစက်ပစ္စည်းမှ ဝင်ရောက်ရန် တောင်းဆိုထားပါသည်</p>
-            </div>
-            <div class="verification-body">
-                <div class="countdown-container">
-                    <div class="countdown-circle">
-                        <div class="countdown-text" id="verificationCountdown">5:00</div>
-                        <svg class="countdown-ring">
-                            <circle class="countdown-ring-background" cx="50" cy="50" r="45"></circle>
-                            <circle class="countdown-ring-progress" cx="50" cy="50" r="45" id="countdownProgress"></circle>
-                        </svg>
-                    </div>
-                </div>
-                <div class="device-info-card glass-morphism" id="requestingDeviceInfo">
-                    <!-- Device information -->
-                </div>
-                <div class="verification-actions">
-                    <button class="btn btn-success cyber-btn" onclick="approveLoginRequest()">
-                        <i class="fas fa-check"></i>
-                        <span class="btn-text">အတည်ပြုပါ</span>
-                        <div class="btn-glow"></div>
-                    </button>
-                    <button class="btn btn-danger cyber-btn" onclick="rejectLoginRequest()">
+        <!-- Settings Modal -->
+        <div id="settingsModal" class="modal" style="display: none;">
+            <div class="modal-content glass-morphism-strong">
+                <div class="modal-header">
+                    <h3 class="modal-title rainbow-text">ဆက်တင်များ</h3>
+                    <button class="modal-close" onclick="toggleSettings()">
                         <i class="fas fa-times"></i>
-                        <span class="btn-text">ငြင်းပယ်ပါ</span>
-                        <div class="btn-glow"></div>
                     </button>
+                </div>
+                <div class="modal-body">
+                    <div class="setting-item">
+                        <span class="setting-label">Particle Effects</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="particleToggle" checked onchange="toggleParticles()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Sound Effects</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="soundToggle" checked onchange="toggleSound()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span class="setting-label">Notifications</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="notificationToggle" checked onchange="toggleNotifications()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Notification Container -->
+        <div id="notificationContainer" class="notification-container"></div>
     </div>
 
-    <!-- Notification Container -->
-    <div id="notificationContainer" class="notification-container"></div>
-
-    <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="index.js"></script>
 </body>
 </html>
