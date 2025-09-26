@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAFIA GAME STORE</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-container">
+            <div class="cyber-loader">
+                <div class="cyber-loader-inner"></div>
+                <div class="cyber-loader-line"></div>
+            </div>
+            <div class="loading-text">
+                <span class="glitch" data-text="MAFIA GAME STORE">MAFIA GAME STORE</span>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="loadingProgress"></div>
+                </div>
+                <div class="progress-text" id="loadingText">0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header glass-morphism">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo neon-glow" id="websiteLogo">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/ae18f90ecc1d48ed62d05bfca7876a2401742b36/All-main-page-Logo.png" alt="Logo" class="logo-img">
+                    </div>
+                    <div class="website-name rainbow-text" id="websiteName">MAFIA GAME STORE</div>
+                </div>
+                <div class="header-controls">
+                    <button class="settings-btn glass-btn" onclick="toggleSettings()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="logout-btn glass-btn" onclick="logout()" id="logoutBtn" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Auth Section -->
+        <section id="authSection" class="auth-section">
+            <!-- Sign Up Page -->
+            <div id="signupPage" class="auth-container slide-in-bottom">
+                <div class="auth-card glass-morphism-strong">
+                    <div class="auth-header">
+                        <h2 class="auth-title neon-text">လှိုဝင်ရောက်ပါ</h2>
+                        <div class="auth-subtitle">အလွန်လွယ်ကူသော အကောင့်ဖန်တီးမှုစနစ်ဖြင့် စတင်လိုက်ပါ</div>
+                    </div>
+                    <div class="auth-form">
+                        <button class="btn btn-primary cyber-btn" onclick="createAccount()">
+                            <span class="btn-text">အကောင့်တစ်ခုဖန်တီးရန်</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        <button class="btn btn-secondary cyber-btn" onclick="showLogin()">
+                            <span class="btn-text">ရှိပြီးသားအကောင့်ဝင်ရန်</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Page -->
+            <div id="loginPage" class="auth-container" style="display: none;">
+                <div class="auth-card glass-morphism-strong">
+                    <div class="auth-header">
+                        <h2 class="auth-title neon-text">ဝင်ရောက်ပါ</h2>
+                        <div class="auth-subtitle">သင့်အကောင့်သို့ ဝင်ရောက်ကြိုဆိုပါ</div>
+                    </div>
+                    <div class="auth-form">
+                        <div class="input-group floating-input">
+                            <input type="email" class="cyber-input" id="loginEmail" placeholder=" " required>
+                            <label class="input-label">အီးမေးလ်</label>
+                            <div class="input-highlight"></div>
+                        </div>
+                        <div class="input-group floating-input">
+                            <input type="password" class="cyber-input" id="loginPassword" placeholder=" " required>
+                            <label class="input-label">စကားဝှက်</label>
+                            <div class="input-highlight"></div>
+                            <button type="button" class="password-toggle" onclick="togglePassword('loginPassword')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-primary cyber-btn" onclick="login()">
+                            <span class="btn-text">ဝင်ရောက်ပါ</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                        <button class="btn btn-secondary cyber-btn" onclick="showSignup()">
+                            <span class="btn-text">အကောင့်ဖန်တီးရန်</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="dashboard" style="display: none;">
+            <!-- Home Page -->
+            <div id="homePage" class="page-content active">
+                <div class="page-header">
+                    <h1 class="page-title holographic-text">ဂိမ်းဆိုင်</h1>
+                    <div class="page-subtitle">သင့်အတွက် အကောင်းဆုံး ဂိမ်းပစ္စည်းများ</div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="section-header">
+                        <h3 class="section-title rainbow-text">PUBG MOBILE</h3>
+                        <div class="section-line neon-line"></div>
+                    </div>
+                    <div class="game-grid" id="pubgGames">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="section-header">
+                        <h3 class="section-title rainbow-text">MOBILE LEGENDS</h3>
+                        <div class="section-line neon-line"></div>
+                    </div>
+                    <div class="game-grid" id="mlGames">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="section-header">
+                        <h3 class="section-title rainbow-text">All Products</h3>
+                        <div class="section-line neon-line"></div>
+                    </div>
+                    <div class="game-grid">
+                        <div class="game-card cyber-card" onclick="showAllProducts()">
+                            <div class="card-glow"></div>
+                            <div class="game-icon holographic">🛍️</div>
+                            <div class="game-title">အားလုံးကြည့်ရန်</div>
+                            <div class="card-shine"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- History Page -->
+            <div id="historyPage" class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title holographic-text">ဝယ်ယူမှုမှတ်တမ်း</h1>
+                    <div class="page-subtitle">သင့်ဝယ်ယူမှုများ၏ အသေးစိတ်</div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="history-content" id="historyContent">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- News Page -->
+            <div id="newsPage" class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title holographic-text">သတင်းများ</h1>
+                    <div class="page-subtitle">နောက်ဆုံးပေါ် သတင်းနှင့် အပ်ဒိတ်များ</div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="news-content" id="newsContent">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mi Page -->
+            <div id="miPage" class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title holographic-text">ကျွန်ုပ်၏အကောင့်</h1>
+                    <div class="page-subtitle">အကောင့်အချက်အလက်နှင့် ဆက်သွယ်ရန်</div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="profile-section">
+                        <div class="profile-card glass-morphism-strong">
+                            <div class="profile-avatar">
+                                <div class="avatar-container">
+                                    <div class="profile-image neon-glow" id="profileImage">👤</div>
+                                    <div class="avatar-ring"></div>
+                                </div>
+                                <div class="profile-info">
+                                    <div class="profile-name rainbow-text">Developer</div>
+                                    <div class="profile-status">Active User</div>
+                                </div>
+                            </div>
+                            <div class="account-info" id="accountInfo">
+                                <!-- Dynamic account info -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section cyber-section">
+                    <div class="section-header">
+                        <h3 class="section-title rainbow-text">ကျွန်ုပ်တို့အကြောင်း</h3>
+                        <div class="section-line neon-line"></div>
+                    </div>
+                    <div class="contact-grid" id="contactList">
+                        <!-- Dynamic content -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Pages -->
+            <div class="product-pages">
+                <!-- PUBG UC Page -->
+                <div id="pubgUcPage" class="product-page">
+                    <div class="page-header">
+                        <button class="back-btn cyber-btn" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>နောက်သို့</span>
+                        </button>
+                        <h1 class="page-title holographic-text">PUBG GLOBAL UC</h1>
+                    </div>
+
+                    <div class="section cyber-section">
+                        <div class="user-id-section glass-morphism-strong">
+                            <div class="section-header">
+                                <h4 class="section-title rainbow-text">Game User ID</h4>
+                            </div>
+                            <div class="input-group floating-input">
+                                <input type="text" class="cyber-input" id="pubgUserId" placeholder=" " required>
+                                <label class="input-label">သင့် PUBG User ID ကို ထည့်ပါ</label>
+                                <div class="input-highlight"></div>
+                            </div>
+                            <button class="btn btn-verify cyber-btn" onclick="verifyGameId('pubg')">
+                                <span class="btn-text">အတည်ပြုပါ</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </div>
+
+                        <div class="products-grid" id="pubgProducts">
+                            <!-- Dynamic content -->
+                        </div>
+
+                        <button class="btn btn-primary cyber-btn buy-btn" id="buyPubgBtn" onclick="buyProduct('pubg')" style="display: none;">
+                            <span class="btn-text">ဝယ်ယူပါ</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Mobile Legends Diamond Page -->
+                <div id="mlDiamondPage" class="product-page">
+                    <div class="page-header">
+                        <button class="back-btn cyber-btn" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>နောက်သို့</span>
+                        </button>
+                        <h1 class="page-title holographic-text">MOBILE LEGENDS DIAMOND</h1>
+                    </div>
+
+                    <div class="section cyber-section">
+                        <div class="user-id-section glass-morphism-strong">
+                            <div class="section-header">
+                                <h4 class="section-title rainbow-text">Game Information</h4>
+                            </div>
+                            <div class="input-grid">
+                                <div class="input-group floating-input">
+                                    <input type="text" class="cyber-input" id="mlUserId" placeholder=" " required>
+                                    <label class="input-label">User ID</label>
+                                    <div class="input-highlight"></div>
+                                </div>
+                                <div class="input-group floating-input">
+                                    <input type="text" class="cyber-input" id="mlServerId" placeholder=" " required>
+                                    <label class="input-label">Server ID</label>
+                                    <div class="input-highlight"></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-verify cyber-btn" onclick="verifyGameId('ml')">
+                                <span class="btn-text">အတည်ပြုပါ</span>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </div>
+
+                        <div class="products-grid" id="mlProducts">
+                            <!-- Dynamic content -->
+                        </div>
+
+                        <button class="btn btn-primary cyber-btn buy-btn" id="buyMlBtn" onclick="buyProduct('ml')" style="display: none;">
+                            <span class="btn-text">ဝယ်ယူပါ</span>
+                            <div class="btn-glow"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- All Products Page -->
+                <div id="allProductsPage" class="product-page">
+                    <div class="page-header">
+                        <button class="back-btn cyber-btn" onclick="goBack()">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>နောက်သို့</span>
+                        </button>
+                        <h1 class="page-title holographic-text">All Products</h1>
+                    </div>
+
+                    <div class="section cyber-section">
+                        <div class="all-products-content" id="allProductsContent">
+                            <!-- Dynamic content -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav glass-morphism">
+            <div class="nav-container">
+                <div class="nav-item active" onclick="showPage('home')" data-page="home">
+                    <div class="nav-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/ae18f90ecc1d48ed62d05bfca7876a2401742b36/home-icon.png" alt="Home">
+                    </div>
+                    <div class="nav-label">ပင်မ</div>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="nav-item" onclick="showPage('history')" data-page="history">
+                    <div class="nav-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/history-icon.png" alt="History">
+                    </div>
+                    <div class="nav-label">မှတ်တမ်း</div>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="nav-item" onclick="showPage('news')" data-page="news">
+                    <div class="nav-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/News-icon.png" alt="News">
+                    </div>
+                    <div class="nav-label">သတင်း</div>
+                    <div class="nav-indicator"></div>
+                </div>
+                <div class="nav-item" onclick="showPage('mi')" data-page="mi">
+                    <div class="nav-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/1be1565e273f4e230a55f65be672d08cd1834e92/Mi-icon.png" alt="Profile">
+                    </div>
+                    <div class="nav-label">ကျွန်ုပ်</div>
+                    <div class="nav-indicator"></div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content glass-morphism-strong">
+            <div class="modal-header">
+                <h3 class="modal-title rainbow-text">ငွေပေးချေမှု</h3>
+                <button class="modal-close cyber-btn" onclick="closePaymentModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-methods" id="paymentMethods">
+                    <!-- Dynamic payment methods -->
+                </div>
+                <div class="payment-info" id="paymentInfo">
+                    <!-- Payment details -->
+                </div>
+                <div class="input-group floating-input" id="referenceGroup" style="display: none;">
+                    <input type="text" class="cyber-input" id="paymentReference" placeholder=" " maxlength="6" required>
+                    <label class="input-label">ငွေလွှဲမှုအမှတ် (နောက်ဆုံးဂဏန်း ၆ လုံး)</label>
+                    <div class="input-highlight"></div>
+                </div>
+                <button class="btn btn-primary cyber-btn" id="submitOrder" onclick="submitOrder()" style="display: none;">
+                    <span class="btn-text">မှာယူမှုတင်သွင်းမည်</span>
+                    <div class="btn-glow"></div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Device Verification Modal -->
+    <div id="deviceVerificationModal" class="modal verification-modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content glass-morphism-strong">
+            <div class="verification-header">
+                <div class="verification-icon">
+                    <div class="security-shield">
+                        <i class="fas fa-shield-alt"></i>
+                        <div class="shield-pulse"></div>
+                    </div>
+                </div>
+                <h3 class="verification-title neon-text">စက်ပစ္စည်းအတည်ပြုခြင်း</h3>
+                <p class="verification-subtitle">သင့်အကောင့်သို့ အခြားစက်ပစ္စည်းမှ ဝင်ရောက်ရန် တောင်းဆိုထားပါသည်</p>
+            </div>
+            <div class="verification-body">
+                <div class="countdown-container">
+                    <div class="countdown-circle">
+                        <div class="countdown-text" id="verificationCountdown">5:00</div>
+                        <svg class="countdown-ring">
+                            <circle class="countdown-ring-background" cx="50" cy="50" r="45"></circle>
+                            <circle class="countdown-ring-progress" cx="50" cy="50" r="45" id="countdownProgress"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <div class="device-info-card glass-morphism" id="requestingDeviceInfo">
+                    <!-- Device information -->
+                </div>
+                <div class="verification-actions">
+                    <button class="btn btn-success cyber-btn" onclick="approveLoginRequest()">
+                        <i class="fas fa-check"></i>
+                        <span class="btn-text">အတည်ပြုပါ</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="btn btn-danger cyber-btn" onclick="rejectLoginRequest()">
+                        <i class="fas fa-times"></i>
+                        <span class="btn-text">ငြင်းပယ်ပါ</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer" class="notification-container"></div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
