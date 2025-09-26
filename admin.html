@@ -557,117 +557,121 @@
                 </button>
             </div>
         </header>
-
-        <!-- Login Form -->
-        <div id="loginSection" class="login-container">
+<!-- Login Section -->
+    <div id="loginSection" class="container">
+        <div class="login-container">
             <div class="login-card">
-                <h2 class="login-title">Admin Panel</h2>
-                <form id="loginForm" onsubmit="handleLogin(event)">
+                <h2 class="login-title">ADMIN LOGIN</h2>
+                <form id="loginForm">
                     <div class="form-group">
                         <label class="form-label">Username</label>
-                        <input type="text" class="form-input" id="username" placeholder="Enter username" required>
+                        <input type="text" class="form-input" id="adminUsername" placeholder="Enter username" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-input" id="password" placeholder="Enter password" required>
+                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="loginBtn">
-                        <span id="loginText">Login</span>
-                        <span id="loginLoading" class="loading" style="display: none;"></span>
-                    </button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
                 </form>
             </div>
         </div>
+    </div>
 
-        <!-- Dashboard -->
-        <div id="dashboard" class="dashboard">
+    <!-- Dashboard -->
+    <div id="dashboardSection" class="container" style="display: none;">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-img" id="adminLogo">M</div>
+                <div class="logo-text" id="adminSiteName">MAFIA GAME STORE</div>
+            </div>
+            <div class="admin-info">
+                <span class="admin-name">Admin: <span id="currentAdminName">Administrator</span></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="dashboard">
             <!-- Sidebar -->
-            <nav class="sidebar">
-                <h3 class="sidebar-title">Control Panel</h3>
+            <div class="sidebar">
+                <h3 class="sidebar-title">ADMIN PANEL</h3>
                 <ul class="sidebar-menu">
                     <li class="sidebar-item">
-                        <a class="sidebar-link active" onclick="showPage('overview')" data-page="overview">
-                            <i class="sidebar-icon fas fa-tachometer-alt"></i>
-                            <span>Overview</span>
+                        <a class="sidebar-link active" onclick="showPage('dashboard')">
+                            <span class="sidebar-icon">📊</span>
+                            <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('users')" data-page="users">
-                            <i class="sidebar-icon fas fa-users"></i>
-                            <span>Users</span>
-                        </a>
-                    </li>
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('orders')" data-page="orders">
-                            <i class="sidebar-icon fas fa-shopping-cart"></i>
+                        <a class="sidebar-link" onclick="showPage('orders')">
+                            <span class="sidebar-icon">📦</span>
                             <span>Orders</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('products')" data-page="products">
-                            <i class="sidebar-icon fas fa-box"></i>
+                        <a class="sidebar-link" onclick="showPage('products')">
+                            <span class="sidebar-icon">🛍️</span>
                             <span>Products</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('payments')" data-page="payments">
-                            <i class="sidebar-icon fas fa-credit-card"></i>
+                        <a class="sidebar-link" onclick="showPage('categories')">
+                            <span class="sidebar-icon">📂</span>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('payment-methods')">
+                            <span class="sidebar-icon">💳</span>
                             <span>Payment Methods</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('news')" data-page="news">
-                            <i class="sidebar-icon fas fa-newspaper"></i>
-                            <span>News</span>
+                        <a class="sidebar-link" onclick="showPage('news')">
+                            <span class="sidebar-icon">📰</span>
+                            <span>News & Social</span>
                         </a>
                     </li>
                     <li class="sidebar-item">
-                        <a class="sidebar-link" onclick="showPage('settings')" data-page="settings">
-                            <i class="sidebar-icon fas fa-cog"></i>
-                            <span>Settings</span>
+                        <a class="sidebar-link" onclick="showPage('users')">
+                            <span class="sidebar-icon">👥</span>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('settings')">
+                            <span class="sidebar-icon">⚙️</span>
+                            <span>Website Settings</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('about')">
+                            <span class="sidebar-icon">ℹ️</span>
+                            <span>About Content</span>
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </div>
 
             <!-- Main Content -->
-            <main class="main-content">
-                <!-- Overview Page -->
-                <div id="overviewPage" class="page-content active">
+            <div class="main-content">
+                <!-- Dashboard Page -->
+                <div id="dashboardPage" class="page-content active">
                     <div class="content-header">
                         <h1 class="content-title">Dashboard Overview</h1>
                     </div>
                     <div class="content-body">
-                        <div class="stats-grid" id="statsGrid">
-                            <div class="stat-card">
-                                <div class="stat-number" id="totalUsers">Loading...</div>
-                                <div class="stat-label">Total Users</div>
-                                <div class="stat-change positive">+12% from last month</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number" id="totalOrders">Loading...</div>
-                                <div class="stat-label">Total Orders</div>
-                                <div class="stat-change positive">+8% from last month</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number" id="totalRevenue">Loading...</div>
-                                <div class="stat-label">Total Revenue</div>
-                                <div class="stat-change positive">+15% from last month</div>
-                            </div>
-                            <div class="stat-card">
-                                <div class="stat-number" id="totalProducts">Loading...</div>
-                                <div class="stat-label">Active Products</div>
-                                <div class="stat-change neutral">Same as last month</div>
-                            </div>
+                        <div class="stats-grid" id="dashboardStats">
+                            <!-- Dynamic stats will be loaded here -->
                         </div>
-
+                        
                         <div class="form-section">
                             <h3 class="form-title">Recent Orders</h3>
                             <div class="table-container">
-                                <table class="data-table">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Order ID</th>
+                                            <th>Order #</th>
                                             <th>User</th>
                                             <th>Product</th>
                                             <th>Amount</th>
@@ -676,9 +680,403 @@
                                         </tr>
                                     </thead>
                                     <tbody id="recentOrdersTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Page -->
+                <div id="ordersPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Order Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 class="form-title">All Orders</h3>
+                                <div style="display: flex; gap: 10px;">
+                                    <select class="form-select" id="orderStatusFilter" onchange="filterOrders()">
+                                        <option value="">All Status</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="approved">Approved</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                    <button class="btn btn-secondary btn-small" onclick="refreshOrders()">Refresh</button>
+                                </div>
+                            </div>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
                                         <tr>
-                                            <td colspan="6" style="text-align: center;">Loading...</td>
+                                            <th>Order #</th>
+                                            <th>User Email</th>
+                                            <th>Product</th>
+                                            <th>Game ID</th>
+                                            <th>Amount</th>
+                                            <th>Price</th>
+                                            <th>Payment</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
                                         </tr>
+                                    </thead>
+                                    <tbody id="ordersTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Page -->
+                <div id="productsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Product Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                <h3 class="form-title">Add New Product</h3>
+                                <select class="form-select" id="productCategory" onchange="loadSubCategories()" style="width: 200px;">
+                                    <option value="">Select Category</option>
+                                </select>
+                            </div>
+                            
+                            <form id="productForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Sub Category</label>
+                                        <select class="form-select" id="productSubCategory" required>
+                                            <option value="">Select Sub Category</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Product Name</label>
+                                        <input type="text" class="form-input" id="productName" placeholder="Enter product name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Product Type</label>
+                                        <select class="form-select" id="productType" required>
+                                            <option value="">Select Type</option>
+                                            <option value="uc">UC</option>
+                                            <option value="diamond">Diamond</option>
+                                            <option value="account">Account</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Amount (for UC/Diamond)</label>
+                                        <input type="number" class="form-input" id="productAmount" placeholder="Enter amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Price</label>
+                                        <input type="number" class="form-input" id="productPrice" placeholder="Enter price" required step="0.01">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Currency</label>
+                                        <select class="form-select" id="productCurrency" required>
+                                            <option value="MMK">MMK</option>
+                                            <option value="CNY">CNY</option>
+                                            <option value="USD">USD</option>
+                                            <option value="USDT">USDT</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Quality (for Accounts)</label>
+                                        <input type="text" class="form-input" id="productQuality" placeholder="e.g., High, Medium, Low">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Stock Quantity</label>
+                                        <input type="number" class="form-input" id="productStock" placeholder="Enter stock quantity" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" class="form-input" id="productPhone" placeholder="Contact phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Telegram Link</label>
+                                        <input type="url" class="form-input" id="productTelegram" placeholder="Telegram contact link">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="productDescription" placeholder="Enter product description"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Product Images</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="productImages" multiple accept="image/*" onchange="handleFileUpload(this)">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload images (Max 50MB total, 10MB per image)</span>
+                                        </div>
+                                    </div>
+                                    <div class="file-preview" id="filePreview"></div>
+                                    <div id="uploadProgress" style="display: none;">
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" id="progressFill"></div>
+                                        </div>
+                                        <div class="progress-text" id="progressText">0%</div>
+                                    </div>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Add Product</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Existing Products</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Price</th>
+                                            <th>Stock</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productsTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categories Page -->
+                <div id="categoriesPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Category Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">Add/Edit Category</h3>
+                            <form id="categoryForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Category Name</label>
+                                        <input type="text" class="form-input" id="categoryName" placeholder="Enter category name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Order Index</label>
+                                        <input type="number" class="form-input" id="categoryOrder" placeholder="Display order" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="categoryDescription" placeholder="Enter category description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Category Icon</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="categoryIcon" accept="image/*" onchange="handleSingleFileUpload(this, 'categoryIconPreview')">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload icon</span>
+                                        </div>
+                                    </div>
+                                    <div id="categoryIconPreview"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Category</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Sub Categories</h3>
+                            <form id="subCategoryForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Parent Category</label>
+                                        <select class="form-select" id="subCategoryParent" required>
+                                            <option value="">Select Parent Category</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Sub Category Name</label>
+                                        <input type="text" class="form-input" id="subCategoryName" placeholder="Enter sub category name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Order Index</label>
+                                        <input type="number" class="form-input" id="subCategoryOrder" placeholder="Display order" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="subCategoryDescription" placeholder="Enter sub category description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Sub Category Icon</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="subCategoryIcon" accept="image/*" onchange="handleSingleFileUpload(this, 'subCategoryIconPreview')">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload icon</span>
+                                        </div>
+                                    </div>
+                                    <div id="subCategoryIconPreview"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Sub Category</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Existing Categories</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Icon</th>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Order</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="categoriesTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods Page -->
+                <div id="payment-methodsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Payment Methods</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">Add Payment Method</h3>
+                            <form id="paymentMethodForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Name</label>
+                                        <input type="text" class="form-input" id="paymentName" placeholder="e.g., KBZ Pay, Wave Money" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Payment Address</label>
+                                        <input type="text" class="form-input" id="paymentAddress" placeholder="Account number or address" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Order Index</label>
+                                        <input type="number" class="form-input" id="paymentOrder" placeholder="Display order" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="paymentDescription" placeholder="Payment instructions or details"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Payment Icon</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="paymentIcon" accept="image/*" onchange="handleSingleFileUpload(this, 'paymentIconPreview')">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload payment icon</span>
+                                        </div>
+                                    </div>
+                                    <div id="paymentIconPreview"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Payment Method</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Existing Payment Methods</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Icon</th>
+                                            <th>Name</th>
+                                            <th>Address</th>
+                                            <th>Order</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="paymentMethodsTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- News Page -->
+                <div id="newsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">News & Social Media</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">Add News Post</h3>
+                            <form id="newsForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Platform</label>
+                                        <select class="form-select" id="newsPlatform" required>
+                                            <option value="">Select Platform</option>
+                                            <option value="youtube">YouTube</option>
+                                            <option value="tiktok">TikTok</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="facebook">Facebook</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-input" id="newsTitle" placeholder="Enter post title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Video URL</label>
+                                        <input type="url" class="form-input" id="newsVideoUrl" placeholder="Video URL from platform" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Telegram Link</label>
+                                        <input type="url" class="form-input" id="newsTelegramLink" placeholder="Related Telegram link">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="newsDescription" placeholder="Enter post description"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add News Post</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Existing News Posts</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Platform</th>
+                                            <th>Title</th>
+                                            <th>Video URL</th>
+                                            <th>Views</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="newsTable">
+                                        <!-- Dynamic content -->
                                     </tbody>
                                 </table>
                             </div>
@@ -695,119 +1093,21 @@
                         <div class="form-section">
                             <h3 class="form-title">All Users</h3>
                             <div class="table-container">
-                                <table class="data-table">
+                                <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
                                             <th>Email</th>
                                             <th>IP Address</th>
-                                            <th>Created</th>
+                                            <th>Join Date</th>
                                             <th>Last Login</th>
+                                            <th>Orders</th>
+                                            <th>Total Spent</th>
                                             <th>Status</th>
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody id="usersTable">
-                                        <tr>
-                                            <td colspan="6" style="text-align: center;">Loading...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Orders Page -->
-                <div id="ordersPage" class="page-content">
-                    <div class="content-header">
-                        <h1 class="content-title">Order Management</h1>
-                    </div>
-                    <div class="content-body">
-                        <div class="form-section">
-                            <h3 class="form-title">All Orders</h3>
-                            <div class="table-container">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Order Number</th>
-                                            <th>User</th>
-                                            <th>Product</th>
-                                            <th>Amount</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="ordersTable">
-                                        <tr>
-                                            <td colspan="7" style="text-align: center;">Loading...</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Products Page -->
-                <div id="productsPage" class="page-content">
-                    <div class="content-header">
-                        <h1 class="content-title">Product Management</h1>
-                    </div>
-                    <div class="content-body">
-                        <div class="form-section">
-                            <h3 class="form-title">Add New Product</h3>
-                            <form id="productForm" onsubmit="handleAddProduct(event)">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Product Name</label>
-                                        <input type="text" class="form-input" name="name" placeholder="Enter product name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Product Type</label>
-                                        <select class="form-select" name="product_type" required>
-                                            <option value="">Select Type</option>
-                                            <option value="uc">PUBG UC</option>
-                                            <option value="diamond">ML Diamond</option>
-                                            <option value="account">Game Account</option>
-                                            <option value="other">Other</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Amount</label>
-                                        <input type="number" class="form-input" name="amount" placeholder="Enter amount">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Price</label>
-                                        <input type="number" class="form-input" name="price" step="0.01" placeholder="Enter price" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" name="description" placeholder="Enter product description"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add Product</button>
-                            </form>
-                        </div>
-
-                        <div class="form-section">
-                            <h3 class="form-title">All Products</h3>
-                            <div class="table-container">
-                                <table class="data-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Type</th>
-                                            <th>Amount</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="productsTable">
-                                        <tr>
-                                            <td colspan="6" style="text-align: center;">Loading...</td>
-                                        </tr>
+                                        <!-- Dynamic content -->
                                     </tbody>
                                 </table>
                             </div>
@@ -823,42 +1123,123 @@
                     <div class="content-body">
                         <div class="form-section">
                             <h3 class="form-title">General Settings</h3>
-                            <form id="settingsForm" onsubmit="handleUpdateSettings(event)">
+                            <form id="settingsForm">
                                 <div class="form-grid">
                                     <div class="form-group">
                                         <label class="form-label">Website Name</label>
-                                        <input type="text" class="form-input" name="website_name" id="websiteNameInput" placeholder="Enter website name">
+                                        <input type="text" class="form-input" id="websiteName" placeholder="Enter website name">
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Logo URL</label>
-                                        <input type="url" class="form-input" name="logo_url" id="logoUrlInput" placeholder="Enter logo URL">
+                                        <label class="form-label">Contact Phone</label>
+                                        <input type="text" class="form-input" id="contactPhone" placeholder="Contact phone number">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Contact Telegram</label>
+                                        <input type="url" class="form-input" id="contactTelegram" placeholder="Telegram link">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Update Settings</button>
+                                <div class="form-group">
+                                    <label class="form-label">Website Description</label>
+                                    <textarea class="form-textarea" id="websiteDescription" placeholder="Enter website description"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Website Logo</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="websiteLogo" accept="image/*" onchange="handleSingleFileUpload(this, 'logoPreview')">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload logo</span>
+                                        </div>
+                                    </div>
+                                    <div id="logoPreview"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Developer Profile Image</label>
+                                    <div class="file-upload">
+                                        <input type="file" class="file-upload-input" id="developerProfile" accept="image/*" onchange="handleSingleFileUpload(this, 'profilePreview')">
+                                        <div class="file-upload-label">
+                                            <span class="file-upload-icon">📁</span>
+                                            <span class="file-upload-text">Click to upload profile image</span>
+                                        </div>
+                                    </div>
+                                    <div id="profilePreview"></div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
                             </form>
                         </div>
                     </div>
                 </div>
 
-                <!-- Other pages placeholders -->
-                <div id="paymentsPage" class="page-content">
+                <!-- About Content Page -->
+                <div id="aboutPage" class="page-content">
                     <div class="content-header">
-                        <h1 class="content-title">Payment Methods</h1>
+                        <h1 class="content-title">About Content Management</h1>
                     </div>
                     <div class="content-body">
-                        <p>Payment methods management coming soon...</p>
-                    </div>
-                </div>
+                        <div class="form-section">
+                            <h3 class="form-title">Add Contact Information</h3>
+                            <form id="aboutForm">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Title</label>
+                                        <input type="text" class="form-input" id="aboutTitle" placeholder="e.g., Telegram Channel, Facebook Page" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Link</label>
+                                        <input type="url" class="form-input" id="aboutLink" placeholder="Contact link URL" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Order Index</label>
+                                        <input type="number" class="form-input" id="aboutOrder" placeholder="Display order" value="0">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Description</label>
+                                    <textarea class="form-textarea" id="aboutDescription" placeholder="Enter description"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Contact Info</button>
+                            </form>
+                        </div>
 
-                <div id="newsPage" class="page-content">
-                    <div class="content-header">
-                        <h1 class="content-title">News Management</h1>
-                    </div>
-                    <div class="content-body">
-                        <p>News management coming soon...</p>
+                        <div class="form-section">
+                            <h3 class="form-title">Existing Contact Information</h3>
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Link</th>
+                                            <th>Order</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="aboutTable">
+                                        <!-- Dynamic content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Order Details</h3>
+                <button class="modal-close" onclick="closeModal('orderModal')">&times;</button>
+            </div>
+            <div id="orderModalContent">
+                <!-- Dynamic content -->
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-success" onclick="approveOrder()">Approve</button>
+                <button class="btn btn-danger" onclick="rejectOrder()">Reject</button>
+            </div>
         </div>
     </div>
 
@@ -987,318 +1368,192 @@
             }
         }
 
-        // ========================================
-        // PAGE NAVIGATION
-        // ========================================
-
-        function showPage(pageId) {
-            // Update current page
-            currentPage = pageId;
-            
+         // Navigation Functions
+        function showPage(pageName) {
             // Hide all pages
             document.querySelectorAll('.page-content').forEach(page => {
                 page.classList.remove('active');
             });
             
             // Show selected page
-            const targetPage = document.getElementById(pageId + 'Page');
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
+            document.getElementById(pageName + 'Page').classList.add('active');
             
-            // Update sidebar active state
+            // Update sidebar
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.classList.remove('active');
-                if (link.dataset.page === pageId) {
-                    link.classList.add('active');
-                }
             });
+            event.target.classList.add('active');
             
-            // Load page-specific data
-            loadPageData(pageId);
+            // Load page data
+            loadPageData(pageName);
         }
 
-        // ========================================
-        // DATA LOADING
-        // ========================================
+        function loadPageData(pageName) {
+            switch(pageName) {
+                case 'dashboard':
+                    loadDashboardData();
+                    break;
+                case 'orders':
+                    loadOrders();
+                    break;
+                case 'products':
+                    loadProducts();
+                    loadCategories();
+                    break;
+                case 'categories':
+                    loadCategories();
+                    break;
+                case 'payment-methods':
+                    loadPaymentMethods();
+                    break;
+                case 'news':
+                    loadNews();
+                    break;
+                case 'users':
+                    loadUsers();
+                    break;
+                case 'settings':
+                    loadSettings();
+                    break;
+                case 'about':
+                    loadAboutContent();
+                    break;
+            }
+        }
 
+        // Dashboard Functions
         async function loadDashboardData() {
             try {
                 // Load statistics
-                await loadStatistics();
+                const [ordersRes, usersRes, productsRes] = await Promise.all([
+                    supabase.from('orders').select('*'),
+                    supabase.from('users').select('*'),
+                    supabase.from('products').select('*')
+                ]);
                 
-                // Load recent orders
-                await loadRecentOrders();
+                const orders = ordersRes.data || [];
+                const users = usersRes.data || [];
+                const products = productsRes.data || [];
+                
+                const stats = {
+                    totalOrders: orders.length,
+                    pendingOrders: orders.filter(o => o.status === 'pending').length,
+                    approvedOrders: orders.filter(o => o.status === 'approved').length,
+                    totalUsers: users.length,
+                    totalProducts: products.length,
+                    activeProducts: products.filter(p => p.is_active).length,
+                    totalRevenue: orders
+                        .filter(o => o.status === 'approved')
+                        .reduce((sum, o) => sum + parseFloat(o.total_price || 0), 0)
+                };
+                
+                displayDashboardStats(stats);
+                loadRecentOrders();
                 
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
             }
         }
 
-        async function loadStatistics() {
-            try {
-                // Get total users
-                const { count: userCount } = await supabase
-                    .from('users')
-                    .select('*', { count: 'exact', head: true });
-                
-                // Get total orders
-                const { count: orderCount } = await supabase
-                    .from('orders')
-                    .select('*', { count: 'exact', head: true });
-                
-                // Get total revenue
-                const { data: revenueData } = await supabase
-                    .from('orders')
-                    .select('total_price')
-                    .eq('status', 'completed');
-                
-                const totalRevenue = revenueData?.reduce((sum, order) => sum + parseFloat(order.total_price || 0), 0) || 0;
-                
-                // Get total products
-                const { count: productCount } = await supabase
-                    .from('products')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('is_active', true);
-                
-                // Update UI
-                document.getElementById('totalUsers').textContent = userCount || 0;
-                document.getElementById('totalOrders').textContent = orderCount || 0;
-                document.getElementById('totalRevenue').textContent = `${totalRevenue.toFixed(0)} MMK`;
-                document.getElementById('totalProducts').textContent = productCount || 0;
-                
-            } catch (error) {
-                console.error('Error loading statistics:', error);
-                document.getElementById('totalUsers').textContent = 'Error';
-                document.getElementById('totalOrders').textContent = 'Error';
-                document.getElementById('totalRevenue').textContent = 'Error';
-                document.getElementById('totalProducts').textContent = 'Error';
-            }
+        function displayDashboardStats(stats) {
+            const statsContainer = document.getElementById('dashboardStats');
+            statsContainer.innerHTML = `
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalOrders}</div>
+                    <div class="stat-label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.pendingOrders}</div>
+                    <div class="stat-label">Pending Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.approvedOrders}</div>
+                    <div class="stat-label">Approved Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalUsers}</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalProducts}</div>
+                    <div class="stat-label">Total Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${stats.totalRevenue.toFixed(2)} MMK</div>
+                    <div class="stat-label">Total Revenue</div>
+                </div>
+            `;
         }
 
         async function loadRecentOrders() {
-            const table = document.getElementById('recentOrdersTable');
-            
             try {
-                const { data: orders, error } = await supabase
-                    .from('orders')
-                    .select(`
-                        *,
-                        users (email),
-                        products (name)
-                    `)
+                const { data: orders } = await supabase
+                    .from('orders_summary')
+                    .select('*')
                     .order('created_at', { ascending: false })
-                    .limit(5);
+                    .limit(10);
                 
-                if (error) throw error;
-                
+                const tableBody = document.getElementById('recentOrdersTable');
                 if (orders && orders.length > 0) {
-                    table.innerHTML = orders.map(order => `
+                    tableBody.innerHTML = orders.map(order => `
                         <tr>
-                            <td>#${order.order_number}</td>
-                            <td>${order.users?.email || 'Unknown'}</td>
-                            <td>${order.products?.name || 'Unknown'}</td>
+                            <td>${order.order_number}</td>
+                            <td>${order.user_email}</td>
+                            <td>${order.product_name}</td>
                             <td>${order.amount || '-'}</td>
                             <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                            <td>${formatDate(order.created_at)}</td>
+                            <td>${new Date(order.created_at).toLocaleDateString()}</td>
                         </tr>
                     `).join('');
                 } else {
-                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No orders found</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="6">No orders found</td></tr>';
                 }
-                
             } catch (error) {
                 console.error('Error loading recent orders:', error);
-                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
             }
         }
 
-        async function loadPageData(pageId) {
-            switch(pageId) {
-                case 'users':
-                    await loadUsersData();
-                    break;
-                case 'orders':
-                    await loadOrdersData();
-                    break;
-                case 'products':
-                    await loadProductsData();
-                    break;
-                case 'settings':
-                    await loadSettingsData();
-                    break;
-            }
-        }
-
-        async function loadUsersData() {
-            const table = document.getElementById('usersTable');
-            
+        // Orders Functions
+        async function loadOrders() {
             try {
-                const { data: users, error } = await supabase
-                    .from('users')
+                const { data: orders } = await supabase
+                    .from('orders_summary')
                     .select('*')
                     .order('created_at', { ascending: false });
                 
-                if (error) throw error;
-                
-                if (users && users.length > 0) {
-                    table.innerHTML = users.map(user => `
-                        <tr>
-                            <td>${user.id.substring(0, 8)}...</td>
-                            <td>${user.email}</td>
-                            <td>${user.ip_address}</td>
-                            <td>${formatDate(user.created_at)}</td>
-                            <td>${formatDate(user.last_login)}</td>
-                            <td><span class="status-badge ${user.is_active ? 'status-completed' : 'status-rejected'}">${user.is_active ? 'Active' : 'Inactive'}</span></td>
-                        </tr>
-                    `).join('');
-                } else {
-                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No users found</td></tr>';
-                }
-                
-            } catch (error) {
-                console.error('Error loading users:', error);
-                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
-            }
-        }
-
-        async function loadOrdersData() {
-            const table = document.getElementById('ordersTable');
-            
-            try {
-                const { data: orders, error } = await supabase
-                    .from('orders')
-                    .select(`
-                        *,
-                        users (email),
-                        products (name)
-                    `)
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                
-                if (orders && orders.length > 0) {
-                    table.innerHTML = orders.map(order => `
-                        <tr>
-                            <td>#${order.order_number}</td>
-                            <td>${order.users?.email || 'Unknown'}</td>
-                            <td>${order.products?.name || 'Unknown'}</td>
-                            <td>${order.amount || '-'}</td>
-                            <td>${order.total_price} ${order.currency}</td>
-                            <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                            <td>
-                                <button class="btn btn-small btn-primary" onclick="updateOrderStatus('${order.id}', 'approved')">Approve</button>
-                                <button class="btn btn-small btn-danger" onclick="updateOrderStatus('${order.id}', 'rejected')">Reject</button>
-                            </td>
-                        </tr>
-                    `).join('');
-                } else {
-                    table.innerHTML = '<tr><td colspan="7" style="text-align: center;">No orders found</td></tr>';
-                }
-                
+                displayOrdersTable(orders);
             } catch (error) {
                 console.error('Error loading orders:', error);
-                table.innerHTML = '<tr><td colspan="7" style="text-align: center;">Error loading data</td></tr>';
             }
         }
 
-        async function loadProductsData() {
-            const table = document.getElementById('productsTable');
-            
-            try {
-                const { data: products, error } = await supabase
-                    .from('products')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                if (error) throw error;
-                
-                if (products && products.length > 0) {
-                    table.innerHTML = products.map(product => `
-                        <tr>
-                            <td>${product.name}</td>
-                            <td>${product.product_type}</td>
-                            <td>${product.amount || '-'}</td>
-                            <td>${product.price} ${product.currency}</td>
-                            <td><span class="status-badge ${product.is_active ? 'status-completed' : 'status-rejected'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
-                            <td>
-                                <button class="btn btn-small btn-secondary" onclick="toggleProductStatus('${product.id}', ${!product.is_active})">
-                                    ${product.is_active ? 'Deactivate' : 'Activate'}
-                                </button>
-                                <button class="btn btn-small btn-danger" onclick="deleteProduct('${product.id}')">Delete</button>
-                            </td>
-                        </tr>
-                    `).join('');
-                } else {
-                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No products found</td></tr>';
-                }
-                
-            } catch (error) {
-                console.error('Error loading products:', error);
-                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
-            }
-        }
-
-        async function loadSettingsData() {
-            try {
-                const { data: settings, error } = await supabase
-                    .from('website_settings')
-                    .select('*');
-                
-                if (error) throw error;
-                
-                // Populate form fields
-                if (settings) {
-                    settings.forEach(setting => {
-                        switch(setting.setting_key) {
-                            case 'website_name':
-                                document.getElementById('websiteNameInput').value = setting.setting_value || '';
-                                break;
-                            case 'logo_url':
-                                document.getElementById('logoUrlInput').value = setting.setting_value || '';
-                                break;
-                        }
-                    });
-                }
-                
-            } catch (error) {
-                console.error('Error loading settings:', error);
-            }
-        }
-
-        // ========================================
-        // CRUD OPERATIONS
-        // ========================================
-
-        async function handleAddProduct(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const productData = {
-                name: formData.get('name'),
-                product_type: formData.get('product_type'),
-                amount: parseInt(formData.get('amount')) || null,
-                price: parseFloat(formData.get('price')),
-                description: formData.get('description') || null,
-                currency: 'MMK',
-                is_active: true,
-                created_by: currentAdmin.id
-            };
-
-            try {
-                const { error } = await supabase
-                    .from('products')
-                    .insert([productData]);
-
-                if (error) throw error;
-
-                showNotification('Product added successfully!', 'success');
-                event.target.reset();
-                await loadProductsData(); // Refresh the products table
-                
-            } catch (error) {
-                console.error('Error adding product:', error);
-                showNotification('Error adding product: ' + error.message, 'error');
+        function displayOrdersTable(orders) {
+            const tableBody = document.getElementById('ordersTable');
+            if (orders && orders.length > 0) {
+                tableBody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>${order.order_number}</td>
+                        <td>${order.user_email}</td>
+                        <td>${order.product_name}</td>
+                        <td>${order.game_id || '-'}</td>
+                        <td>${order.amount || '-'}</td>
+                        <td>${order.total_price} ${order.currency}</td>
+                        <td>${order.payment_method || '-'}</td>
+                        <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="viewOrder('${order.id}')">View</button>
+                                ${order.status === 'pending' ? `
+                                    <button class="btn btn-success btn-small" onclick="updateOrderStatus('${order.id}', 'approved')">Approve</button>
+                                    <button class="btn btn-danger btn-small" onclick="updateOrderStatus('${order.id}', 'rejected')">Reject</button>
+                                ` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="10">No orders found</td></tr>';
             }
         }
 
@@ -1312,154 +1567,805 @@
                         processed_at: new Date().toISOString()
                     })
                     .eq('id', orderId);
-
+                
                 if (error) throw error;
-
-                showNotification(`Order ${status} successfully!`, 'success');
-                await loadOrdersData(); // Refresh the orders table
+                
+                showMessage(`Order ${status} successfully`, 'success');
+                loadOrders();
                 
             } catch (error) {
-                console.error('Error updating order:', error);
-                showNotification('Error updating order: ' + error.message, 'error');
+                console.error('Error updating order status:', error);
+                showMessage('Failed to update order status', 'error');
             }
         }
 
-        async function toggleProductStatus(productId, isActive) {
-            try {
-                const { error } = await supabase
-                    .from('products')
-                    .update({ is_active: isActive })
-                    .eq('id', productId);
-
-                if (error) throw error;
-
-                showNotification(`Product ${isActive ? 'activated' : 'deactivated'} successfully!`, 'success');
-                await loadProductsData(); // Refresh the products table
-                
-            } catch (error) {
-                console.error('Error updating product:', error);
-                showNotification('Error updating product: ' + error.message, 'error');
-            }
+        function filterOrders() {
+            const status = document.getElementById('orderStatusFilter').value;
+            // Implement filtering logic here
+            loadOrders();
         }
 
-        async function deleteProduct(productId) {
-            if (!confirm('Are you sure you want to delete this product?')) {
+        function refreshOrders() {
+            loadOrders();
+        }
+
+        // File Upload Functions
+        function handleFileUpload(input) {
+            const files = Array.from(input.files);
+            selectedFiles = [];
+            
+            files.forEach(file => {
+                if (file.size > 10485760) { // 10MB limit per file
+                    showMessage(`File ${file.name} exceeds 10MB limit`, 'error');
+                    return;
+                }
+                selectedFiles.push(file);
+            });
+            
+            const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
+            if (totalSize > 52428800) { // 50MB total limit
+                showMessage('Total file size exceeds 50MB limit', 'error');
+                selectedFiles = [];
                 return;
             }
+            
+            displayFilePreview();
+        }
 
+        function handleSingleFileUpload(input, previewId) {
+            const file = input.files[0];
+            if (!file) return;
+            
+            if (file.size > 10485760) { // 10MB limit
+                showMessage('File size exceeds 10MB limit', 'error');
+                input.value = '';
+                return;
+            }
+            
+            const previewContainer = document.getElementById(previewId);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewContainer.innerHTML = `
+                    <div class="file-preview-item" style="max-width: 200px; margin-top: 10px;">
+                        <img src="${e.target.result}" alt="Preview" class="file-preview-img">
+                        <div class="file-preview-info">
+                            <div class="file-preview-name">${file.name}</div>
+                            <div class="file-preview-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                        </div>
+                    </div>
+                `;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function displayFilePreview() {
+            const previewContainer = document.getElementById('filePreview');
+            previewContainer.innerHTML = selectedFiles.map((file, index) => `
+                <div class="file-preview-item">
+                    <img src="${URL.createObjectURL(file)}" alt="Preview" class="file-preview-img">
+                    <div class="file-preview-info">
+                        <div class="file-preview-name">${file.name}</div>
+                        <div class="file-preview-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
+                    </div>
+                    <button class="file-preview-remove" onclick="removeFile(${index})">&times;</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            displayFilePreview();
+        }
+
+        async function uploadFiles(files, bucket = 'images') {
             try {
+                const uploadPromises = files.map(async (file, index) => {
+                    const fileName = `${Date.now()}_${index}_${file.name}`;
+                    const { data, error } = await supabase.storage
+                        .from(bucket)
+                        .upload(fileName, file);
+                    
+                    if (error) throw error;
+                    
+                    const { data: publicUrl } = supabase.storage
+                        .from(bucket)
+                        .getPublicUrl(fileName);
+                    
+                    return {
+                        url: publicUrl.publicUrl,
+                        size: file.size
+                    };
+                });
+                
+                return await Promise.all(uploadPromises);
+            } catch (error) {
+                console.error('Upload error:', error);
+                throw error;
+            }
+        }
+
+        // Product Functions
+        async function handleProductSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                if (selectedFiles.length === 0) {
+                    showMessage('Please select at least one image', 'error');
+                    return;
+                }
+                
+                showMessage('Uploading product...', 'info');
+                showUploadProgress();
+                
+                // Upload images
+                const uploadedFiles = await uploadFiles(selectedFiles);
+                
+                const productData = {
+                    category_id: document.getElementById('productCategory').value,
+                    sub_category_id: document.getElementById('productSubCategory').value || null,
+                    name: document.getElementById('productName').value,
+                    description: document.getElementById('productDescription').value,
+                    price: parseFloat(document.getElementById('productPrice').value),
+                    currency: document.getElementById('productCurrency').value,
+                    product_type: document.getElementById('productType').value,
+                    amount: parseInt(document.getElementById('productAmount').value) || null,
+                    quality: document.getElementById('productQuality').value || null,
+                    stock_quantity: parseInt(document.getElementById('productStock').value) || 0,
+                    phone_number: document.getElementById('productPhone').value || null,
+                    telegram_link: document.getElementById('productTelegram').value || null,
+                    images: uploadedFiles.map(f => f.url),
+                    image_sizes: uploadedFiles.map(f => f.size),
+                    created_by: currentAdmin.id
+                };
+                
                 const { error } = await supabase
                     .from('products')
-                    .delete()
-                    .eq('id', productId);
-
+                    .insert([productData]);
+                
                 if (error) throw error;
-
-                showNotification('Product deleted successfully!', 'success');
-                await loadProductsData(); // Refresh the products table
+                
+                showMessage('Product added successfully', 'success');
+                document.getElementById('productForm').reset();
+                selectedFiles = [];
+                document.getElementById('filePreview').innerHTML = '';
+                hideUploadProgress();
+                loadProducts();
                 
             } catch (error) {
-                console.error('Error deleting product:', error);
-                showNotification('Error deleting product: ' + error.message, 'error');
+                console.error('Error adding product:', error);
+                showMessage('Failed to add product', 'error');
+                hideUploadProgress();
             }
         }
 
-        async function handleUpdateSettings(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const websiteName = formData.get('website_name');
-            const logoUrl = formData.get('logo_url');
+        function showUploadProgress() {
+            document.getElementById('uploadProgress').style.display = 'block';
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                document.getElementById('progressFill').style.width = progress + '%';
+                document.getElementById('progressText').textContent = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
 
+        function hideUploadProgress() {
+            document.getElementById('uploadProgress').style.display = 'none';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressText').textContent = '0%';
+        }
+
+        async function loadProducts() {
             try {
-                // Update website name
-                if (websiteName) {
-                    await supabase
-                        .from('website_settings')
-                        .upsert({
-                            setting_key: 'website_name',
-                            setting_value: websiteName,
-                            updated_by: currentAdmin.id
-                        });
-                }
-
-                // Update logo URL
-                if (logoUrl) {
-                    await supabase
-                        .from('website_settings')
-                        .upsert({
-                            setting_key: 'logo_url',
-                            setting_value: logoUrl,
-                            updated_by: currentAdmin.id
-                        });
-                }
-
-                showNotification('Settings updated successfully!', 'success');
+                const { data: products } = await supabase
+                    .from('products')
+                    .select(`
+                        *,
+                        categories (name),
+                        sub_categories (name)
+                    `)
+                    .order('created_at', { ascending: false });
                 
+                displayProductsTable(products);
             } catch (error) {
-                console.error('Error updating settings:', error);
-                showNotification('Error updating settings: ' + error.message, 'error');
+                console.error('Error loading products:', error);
             }
         }
 
-        // ========================================
-        // UTILITY FUNCTIONS
-        // ========================================
-
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            const notificationText = document.getElementById('notificationText');
-            
-            notificationText.textContent = message;
-            notification.className = `notification ${type} show`;
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
+        function displayProductsTable(products) {
+            const tableBody = document.getElementById('productsTable');
+            if (products && products.length > 0) {
+                tableBody.innerHTML = products.map(product => `
+                    <tr>
+                        <td>
+                            ${product.images && product.images[0] ? 
+                                `<img src="${product.images[0]}" alt="${product.name}" style="width: 50px; height: 50px; border-radius: 8px; object-fit: cover;">` : 
+                                'No image'
+                            }
+                        </td>
+                        <td>${product.name}</td>
+                        <td>${product.product_type}</td>
+                        <td>${product.amount || '-'}</td>
+                        <td>${product.price} ${product.currency}</td>
+                        <td>${product.stock_quantity}</td>
+                        <td><span class="status-badge status-${product.is_active ? 'active' : 'inactive'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="editProduct('${product.id}')">Edit</button>
+                                <button class="btn btn-danger btn-small" onclick="deleteProduct('${product.id}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="8">No products found</td></tr>';
+            }
         }
 
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
+        // Category Functions
+        async function loadCategories() {
+            try {
+                // Load main categories
+                const { data: categories } = await supabase
+                    .from('categories')
+                    .select('*')
+                    .order('order_index');
+                
+                // Load sub categories
+                const { data: subCategories } = await supabase
+                    .from('sub_categories')
+                    .select(`
+                        *,
+                        categories (name)
+                    `)
+                    .order('order_index');
+                
+                displayCategoriesTable(categories, subCategories);
+                populateCategorySelects(categories);
+                
+            } catch (error) {
+                console.error('Error loading categories:', error);
+            }
+        }
+
+        function displayCategoriesTable(categories, subCategories) {
+            const tableBody = document.getElementById('categoriesTable');
+            let tableContent = '';
+            
+            if (categories && categories.length > 0) {
+                categories.forEach(category => {
+                    tableContent += `
+                        <tr>
+                            <td>
+                                ${category.icon_url ? 
+                                    `<img src="${category.icon_url}" alt="${category.name}" style="width: 30px; height: 30px; border-radius: 6px; object-fit: cover;">` : 
+                                    'No icon'
+                                }
+                            </td>
+                            <td>${category.name}</td>
+                            <td>Category</td>
+                            <td>${category.order_index}</td>
+                            <td><span class="status-badge status-${category.is_active ? 'active' : 'inactive'}">${category.is_active ? 'Active' : 'Inactive'}</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-secondary btn-small" onclick="editCategory('${category.id}')">Edit</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteCategory('${category.id}')">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            if (subCategories && subCategories.length > 0) {
+                subCategories.forEach(subCategory => {
+                    tableContent += `
+                        <tr>
+                            <td>
+                                ${subCategory.icon_url ? 
+                                    `<img src="${subCategory.icon_url}" alt="${subCategory.name}" style="width: 30px; height: 30px; border-radius: 6px; object-fit: cover;">` : 
+                                    'No icon'
+                                }
+                            </td>
+                            <td>${subCategory.name}</td>
+                            <td>Sub Category (${subCategory.categories?.name})</td>
+                            <td>${subCategory.order_index}</td>
+                            <td><span class="status-badge status-${subCategory.is_active ? 'active' : 'inactive'}">${subCategory.is_active ? 'Active' : 'Inactive'}</span></td>
+                            <td>
+                                <div class="table-actions">
+                                    <button class="btn btn-secondary btn-small" onclick="editSubCategory('${subCategory.id}')">Edit</button>
+                                    <button class="btn btn-danger btn-small" onclick="deleteSubCategory('${subCategory.id}')">Delete</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            if (tableContent === '') {
+                tableContent = '<tr><td colspan="6">No categories found</td></tr>';
+            }
+            
+            tableBody.innerHTML = tableContent;
+        }
+
+        function populateCategorySelects(categories) {
+            const selects = ['productCategory', 'subCategoryParent'];
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                if (select) {
+                    select.innerHTML = '<option value="">Select Category</option>' +
+                        categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+                }
             });
         }
 
-        // ========================================
-        // INITIALIZATION
-        // ========================================
-
-        // Initialize when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Admin panel loaded');
-            console.log('Supabase client initialized:', !!supabase);
+        async function loadSubCategories() {
+            const categoryId = document.getElementById('productCategory').value;
+            const subCategorySelect = document.getElementById('productSubCategory');
             
-            // Check for existing admin session
-            checkAdminSession();
-        });
-
-        // Test database connection
-        async function testConnection() {
+            if (!categoryId) {
+                subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+                return;
+            }
+            
             try {
-                const { data, error } = await supabase
-                    .from('admin')
-                    .select('count')
-                    .limit(1);
+                const { data: subCategories } = await supabase
+                    .from('sub_categories')
+                    .select('*')
+                    .eq('category_id', categoryId)
+                    .eq('is_active', true)
+                    .order('order_index');
                 
-                console.log('Database connection test:', error ? 'Failed' : 'Success');
-                if (error) console.error('Connection error:', error);
+                subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' +
+                    (subCategories || []).map(sub => `<option value="${sub.id}">${sub.name}</option>`).join('');
                 
             } catch (error) {
-                console.error('Connection test error:', error);
+                console.error('Error loading sub categories:', error);
             }
         }
 
-        // Test connection on load
-        testConnection();
+        async function handleCategorySubmit(e) {
+            e.preventDefault();
+            
+            try {
+                let iconUrl = null;
+                const iconFile = document.getElementById('categoryIcon').files[0];
+                
+                if (iconFile) {
+                    const uploadedFiles = await uploadFiles([iconFile], 'admin-uploads');
+                    iconUrl = uploadedFiles[0].url;
+                }
+                
+                const categoryData = {
+                    name: document.getElementById('categoryName').value,
+                    description: document.getElementById('categoryDescription').value,
+                    order_index: parseInt(document.getElementById('categoryOrder').value) || 0,
+                    icon_url: iconUrl
+                };
+                
+                const { error } = await supabase
+                    .from('categories')
+                    .insert([categoryData]);
+                
+                if (error) throw error;
+                
+                showMessage('Category added successfully', 'success');
+                document.getElementById('categoryForm').reset();
+                document.getElementById('categoryIconPreview').innerHTML = '';
+                loadCategories();
+                
+            } catch (error) {
+                console.error('Error adding category:', error);
+                showMessage('Failed to add category', 'error');
+            }
+        }
+
+        async function handleSubCategorySubmit(e) {
+            e.preventDefault();
+            
+            try {
+                let iconUrl = null;
+                const iconFile = document.getElementById('subCategoryIcon').files[0];
+                
+                if (iconFile) {
+                    const uploadedFiles = await uploadFiles([iconFile], 'admin-uploads');
+                    iconUrl = uploadedFiles[0].url;
+                }
+                
+                const subCategoryData = {
+                    category_id: document.getElementById('subCategoryParent').value,
+                    name: document.getElementById('subCategoryName').value,
+                    description: document.getElementById('subCategoryDescription').value,
+                    order_index: parseInt(document.getElementById('subCategoryOrder').value) || 0,
+                    icon_url: iconUrl
+                };
+                
+                const { error } = await supabase
+                    .from('sub_categories')
+                    .insert([subCategoryData]);
+                
+                if (error) throw error;
+                
+                showMessage('Sub category added successfully', 'success');
+                document.getElementById('subCategoryForm').reset();
+                document.getElementById('subCategoryIconPreview').innerHTML = '';
+                loadCategories();
+                
+            } catch (error) {
+                console.error('Error adding sub category:', error);
+                showMessage('Failed to add sub category', 'error');
+            }
+        }
+
+        // Payment Methods Functions
+        async function loadPaymentMethods() {
+            try {
+                const { data: paymentMethods } = await supabase
+                    .from('payment_methods')
+                    .select('*')
+                    .order('order_index');
+                
+                displayPaymentMethodsTable(paymentMethods);
+            } catch (error) {
+                console.error('Error loading payment methods:', error);
+            }
+        }
+
+        function displayPaymentMethodsTable(paymentMethods) {
+            const tableBody = document.getElementById('paymentMethodsTable');
+            if (paymentMethods && paymentMethods.length > 0) {
+                tableBody.innerHTML = paymentMethods.map(method => `
+                    <tr>
+                        <td>
+                            ${method.icon_url ? 
+                                `<img src="${method.icon_url}" alt="${method.name}" style="width: 30px; height: 30px; border-radius: 6px; object-fit: cover;">` : 
+                                'No icon'
+                            }
+                        </td>
+                        <td>${method.name}</td>
+                        <td>${method.address}</td>
+                        <td>${method.order_index}</td>
+                        <td><span class="status-badge status-${method.is_active ? 'active' : 'inactive'}">${method.is_active ? 'Active' : 'Inactive'}</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="editPaymentMethod('${method.id}')">Edit</button>
+                                <button class="btn btn-danger btn-small" onclick="deletePaymentMethod('${method.id}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="6">No payment methods found</td></tr>';
+            }
+        }
+
+        async function handlePaymentMethodSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                let iconUrl = null;
+                const iconFile = document.getElementById('paymentIcon').files[0];
+                
+                if (iconFile) {
+                    const uploadedFiles = await uploadFiles([iconFile], 'admin-uploads');
+                    iconUrl = uploadedFiles[0].url;
+                }
+                
+                const paymentMethodData = {
+                    name: document.getElementById('paymentName').value,
+                    address: document.getElementById('paymentAddress').value,
+                    description: document.getElementById('paymentDescription').value,
+                    order_index: parseInt(document.getElementById('paymentOrder').value) || 0,
+                    icon_url: iconUrl,
+                    created_by: currentAdmin.id
+                };
+                
+                const { error } = await supabase
+                    .from('payment_methods')
+                    .insert([paymentMethodData]);
+                
+                if (error) throw error;
+                
+                showMessage('Payment method added successfully', 'success');
+                document.getElementById('paymentMethodForm').reset();
+                document.getElementById('paymentIconPreview').innerHTML = '';
+                loadPaymentMethods();
+                
+            } catch (error) {
+                console.error('Error adding payment method:', error);
+                showMessage('Failed to add payment method', 'error');
+            }
+        }
+
+        // News Functions
+        async function loadNews() {
+            try {
+                const { data: news } = await supabase
+                    .from('news_posts')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                displayNewsTable(news);
+            } catch (error) {
+                console.error('Error loading news:', error);
+            }
+        }
+
+        function displayNewsTable(news) {
+            const tableBody = document.getElementById('newsTable');
+            if (news && news.length > 0) {
+                tableBody.innerHTML = news.map(post => `
+                    <tr>
+                        <td><span class="platform-tag">${post.platform}</span></td>
+                        <td>${post.title}</td>
+                        <td><a href="${post.video_url}" target="_blank" style="color: #4ecdc4;">View Video</a></td>
+                        <td>${post.view_count}</td>
+                        <td><span class="status-badge status-${post.is_active ? 'active' : 'inactive'}">${post.is_active ? 'Active' : 'Inactive'}</span></td>
+                        <td>${new Date(post.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="editNews('${post.id}')">Edit</button>
+                                <button class="btn btn-danger btn-small" onclick="deleteNews('${post.id}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="7">No news posts found</td></tr>';
+            }
+        }
+
+        async function handleNewsSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const newsData = {
+                    platform: document.getElementById('newsPlatform').value,
+                    title: document.getElementById('newsTitle').value,
+                    description: document.getElementById('newsDescription').value,
+                    video_url: document.getElementById('newsVideoUrl').value,
+                    telegram_link: document.getElementById('newsTelegramLink').value || null,
+                    created_by: currentAdmin.id
+                };
+                
+                const { error } = await supabase
+                    .from('news_posts')
+                    .insert([newsData]);
+                
+                if (error) throw error;
+                
+                showMessage('News post added successfully', 'success');
+                document.getElementById('newsForm').reset();
+                loadNews();
+                
+            } catch (error) {
+                console.error('Error adding news post:', error);
+                showMessage('Failed to add news post', 'error');
+            }
+        }
+
+        // Users Functions
+        async function loadUsers() {
+            try {
+                const { data: users } = await supabase
+                    .from('user_statistics')
+                    .select('*')
+                    .order('join_date', { ascending: false });
+                
+                displayUsersTable(users);
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        function displayUsersTable(users) {
+            const tableBody = document.getElementById('usersTable');
+            if (users && users.length > 0) {
+                tableBody.innerHTML = users.map(user => `
+                    <tr>
+                        <td>${user.email}</td>
+                        <td>IP Hidden</td>
+                        <td>${new Date(user.join_date).toLocaleDateString()}</td>
+                        <td>${user.last_login ? new Date(user.last_login).toLocaleDateString() : 'Never'}</td>
+                        <td>${user.total_orders}</td>
+                        <td>${user.total_spent} MMK</td>
+                        <td><span class="status-badge status-active">Active</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="viewUser('${user.id}')">View</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="8">No users found</td></tr>';
+            }
+        }
+
+        // Settings Functions
+        async function loadSettings() {
+            try {
+                const { data: settings } = await supabase
+                    .from('website_settings')
+                    .select('*');
+                
+                if (settings) {
+                    settings.forEach(setting => {
+                        const element = document.getElementById(getSettingElementId(setting.setting_key));
+                        if (element) {
+                            element.value = setting.setting_value || '';
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        function getSettingElementId(key) {
+            const mapping = {
+                'website_name': 'websiteName',
+                'contact_phone': 'contactPhone',
+                'contact_telegram': 'contactTelegram',
+                'website_description': 'websiteDescription'
+            };
+            return mapping[key] || key;
+        }
+
+        async function handleSettingsSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const settings = [
+                    { key: 'website_name', value: document.getElementById('websiteName').value },
+                    { key: 'contact_phone', value: document.getElementById('contactPhone').value },
+                    { key: 'contact_telegram', value: document.getElementById('contactTelegram').value },
+                    { key: 'website_description', value: document.getElementById('websiteDescription').value }
+                ];
+                
+                // Handle logo upload
+                const logoFile = document.getElementById('websiteLogo').files[0];
+                if (logoFile) {
+                    const uploadedFiles = await uploadFiles([logoFile], 'admin-uploads');
+                    settings.push({ key: 'website_logo', value: uploadedFiles[0].url });
+                }
+                
+                // Handle profile upload
+                const profileFile = document.getElementById('developerProfile').files[0];
+                if (profileFile) {
+                    const uploadedFiles = await uploadFiles([profileFile], 'admin-uploads');
+                    settings.push({ key: 'developer_profile_image', value: uploadedFiles[0].url });
+                }
+                
+                // Update settings
+                for (const setting of settings) {
+                    if (setting.value) {
+                        const { error } = await supabase
+                            .from('website_settings')
+                            .upsert({
+                                setting_key: setting.key,
+                                setting_value: setting.value,
+                                updated_by: currentAdmin.id
+                            });
+                        
+                        if (error) throw error;
+                    }
+                }
+                
+                showMessage('Settings saved successfully', 'success');
+                
+            } catch (error) {
+                console.error('Error saving settings:', error);
+                showMessage('Failed to save settings', 'error');
+            }
+        }
+
+        // About Content Functions
+        async function loadAboutContent() {
+            try {
+                const { data: aboutContent } = await supabase
+                    .from('about_content')
+                    .select('*')
+                    .order('order_index');
+                
+                displayAboutTable(aboutContent);
+            } catch (error) {
+                console.error('Error loading about content:', error);
+            }
+        }
+
+        function displayAboutTable(aboutContent) {
+            const tableBody = document.getElementById('aboutTable');
+            if (aboutContent && aboutContent.length > 0) {
+                tableBody.innerHTML = aboutContent.map(item => `
+                    <tr>
+                        <td>${item.title}</td>
+                        <td><a href="${item.link}" target="_blank" style="color: #4ecdc4;">View Link</a></td>
+                        <td>${item.order_index}</td>
+                        <td><span class="status-badge status-${item.is_active ? 'active' : 'inactive'}">${item.is_active ? 'Active' : 'Inactive'}</span></td>
+                        <td>
+                            <div class="table-actions">
+                                <button class="btn btn-secondary btn-small" onclick="editAbout('${item.id}')">Edit</button>
+                                <button class="btn btn-danger btn-small" onclick="deleteAbout('${item.id}')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } else {
+                tableBody.innerHTML = '<tr><td colspan="5">No contact information found</td></tr>';
+            }
+        }
+
+        async function handleAboutSubmit(e) {
+            e.preventDefault();
+            
+            try {
+                const aboutData = {
+                    title: document.getElementById('aboutTitle').value,
+                    link: document.getElementById('aboutLink').value,
+                    description: document.getElementById('aboutDescription').value,
+                    order_index: parseInt(document.getElementById('aboutOrder').value) || 0,
+                    created_by: currentAdmin.id
+                };
+                
+                const { error } = await supabase
+                    .from('about_content')
+                    .insert([aboutData]);
+                
+                if (error) throw error;
+                
+                showMessage('Contact information added successfully', 'success');
+                document.getElementById('aboutForm').reset();
+                loadAboutContent();
+                
+            } catch (error) {
+                console.error('Error adding about content:', error);
+                showMessage('Failed to add contact information', 'error');
+            }
+        }
+
+        // Utility Functions
+        function showMessage(message, type = 'info') {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = message;
+            
+            const contentBody = document.querySelector('.content-body');
+            if (contentBody) {
+                contentBody.insertBefore(messageDiv, contentBody.firstChild);
+            }
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Edit functions (placeholders - implement as needed)
+        function editProduct(id) { console.log('Edit product:', id); }
+        function deleteProduct(id) { console.log('Delete product:', id); }
+        function editCategory(id) { console.log('Edit category:', id); }
+        function deleteCategory(id) { console.log('Delete category:', id); }
+        function editSubCategory(id) { console.log('Edit sub category:', id); }
+        function deleteSubCategory(id) { console.log('Delete sub category:', id); }
+        function editPaymentMethod(id) { console.log('Edit payment method:', id); }
+        function deletePaymentMethod(id) { console.log('Delete payment method:', id); }
+        function editNews(id) { console.log('Edit news:', id); }
+        function deleteNews(id) { console.log('Delete news:', id); }
+        function editAbout(id) { console.log('Edit about:', id); }
+        function deleteAbout(id) { console.log('Delete about:', id); }
+        function viewUser(id) { console.log('View user:', id); }
+        function viewOrder(id) { console.log('View order:', id); }
     </script>
+
+    <!-- Include Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </body>
 </html>
