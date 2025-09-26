@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAFIA GAME STORE - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -121,7 +123,7 @@
             background-clip: text;
         }
 
-        /* Sidebar */
+        /* Dashboard */
         .dashboard {
             display: none;
             grid-template-columns: 300px 1fr;
@@ -420,139 +422,33 @@
             font-size: 12px;
         }
 
-        /* File Upload */
-        .file-upload {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .file-upload-input {
-            position: absolute;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .file-upload-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 40px 20px;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .file-upload-label:hover {
-            border-color: #4ecdc4;
-            background: rgba(78, 205, 196, 0.1);
-        }
-
-        .file-upload-icon {
-            font-size: 24px;
-            color: #4ecdc4;
-        }
-
-        .file-upload-text {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .file-preview {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .file-preview-item {
-            position: relative;
-            border-radius: 10px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .file-preview-img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-
-        .file-preview-info {
-            padding: 10px;
-            font-size: 12px;
-        }
-
-        .file-preview-name {
-            color: white;
-            margin-bottom: 5px;
-            word-break: break-all;
-        }
-
-        .file-preview-size {
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .file-preview-remove {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: rgba(255, 107, 107, 0.8);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 25px;
-            height: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* Tables */
-        .table-container {
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th,
-        .table td {
+        .data-table th,
+        .data-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .table th {
+        .data-table th {
             background: rgba(255, 255, 255, 0.1);
             font-weight: 600;
             color: #4ecdc4;
         }
 
-        .table tbody tr:hover {
+        .data-table tr:hover {
             background: rgba(255, 255, 255, 0.05);
         }
 
-        .table-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        /* Status badges */
         .status-badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -562,43 +458,50 @@
         }
 
         .status-pending {
-            background: linear-gradient(45deg, #ff9800, #f57c00);
-            color: white;
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
         }
 
-        .status-approved {
-            background: linear-gradient(45deg, #4caf50, #388e3c);
-            color: white;
+        .status-completed {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
         }
 
         .status-rejected {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
-            color: white;
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
         }
 
-        /* Message styles */
-        .message {
+        /* Notification */
+        .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 25px;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 15px 20px;
             color: white;
-            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             z-index: 1000;
+            display: none;
             animation: slideIn 0.3s ease;
         }
 
-        .message.success {
-            background: linear-gradient(45deg, #4caf50, #388e3c);
+        .notification.show {
+            display: block;
         }
 
-        .message.error {
-            background: linear-gradient(45deg, #f44336, #d32f2f);
+        .notification.success {
+            border-left: 4px solid #4caf50;
         }
 
-        .message.info {
-            background: linear-gradient(45deg, #2196f3, #1976d2);
+        .notification.error {
+            border-left: 4px solid #f44336;
+        }
+
+        .notification.warning {
+            border-left: 4px solid #ff9800;
         }
 
         @keyframes slideIn {
@@ -606,781 +509,402 @@
             to { transform: translateX(0); opacity: 1; }
         }
 
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #4ecdc4;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .dashboard {
                 grid-template-columns: 1fr;
-                gap: 20px;
             }
-
+            
             .sidebar {
                 position: static;
+                margin-bottom: 20px;
             }
-
+            
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .table-container {
-                overflow-x: auto;
-            }
-
-            .table {
-                min-width: 800px;
-            }
-        }
-
-        /* Loading overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.3);
-            border-top: 4px solid #4ecdc4;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-          <div class="container">
-        <!-- Login Section -->
-        <div id="loginSection">
-            <div class="login-container">
-                <div class="login-card">
-                    <div class="logo" style="justify-content: center; margin-bottom: 30px;">
-                        <div class="logo-img" id="adminLogo">M</div>
-                        <div class="logo-text" id="adminSiteName">MAFIA GAME STORE</div>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-img">MGS</div>
+                <div class="logo-text">MAFIA GAME STORE</div>
+            </div>
+            <div class="admin-info" id="adminInfo" style="display: none;">
+                <span class="admin-name" id="adminName">Admin</span>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    လက်လှမ်း
+                </button>
+            </div>
+        </header>
+
+        <!-- Login Form -->
+        <div id="loginSection" class="login-container">
+            <div class="login-card">
+                <h2 class="login-title">Admin Panel</h2>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label class="form-label">Username</label>
+                        <input type="text" class="form-input" id="username" placeholder="Enter username" required>
                     </div>
-                    <h2 class="login-title">ADMIN LOGIN</h2>
-                    <form id="loginForm">
-                        <div class="form-group">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-input" id="adminUsername" placeholder="Enter username" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-input" id="adminPassword" placeholder="Enter password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Login</button>
-                    </form>
-                </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-input" id="password" placeholder="Enter password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;" id="loginBtn">
+                        <span id="loginText">Login</span>
+                        <span id="loginLoading" class="loading" style="display: none;"></span>
+                    </button>
+                </form>
             </div>
         </div>
 
-        <!-- Dashboard Section -->
-        <div id="dashboardSection" style="display: none;">
-            <!-- Header -->
-            <div class="header">
-                <div class="logo">
-                    <div class="logo-img" id="adminLogo">M</div>
-                    <div class="logo-text" id="adminSiteName">MAFIA GAME STORE</div>
-                </div>
-                <div class="admin-info">
-                    <span class="admin-name">Admin: <span id="currentAdminName">Administrator</span></span>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
-                </div>
-            </div>
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <!-- Sidebar -->
+            <nav class="sidebar">
+                <h3 class="sidebar-title">Control Panel</h3>
+                <ul class="sidebar-menu">
+                    <li class="sidebar-item">
+                        <a class="sidebar-link active" onclick="showPage('overview')" data-page="overview">
+                            <i class="sidebar-icon fas fa-tachometer-alt"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('users')" data-page="users">
+                            <i class="sidebar-icon fas fa-users"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('orders')" data-page="orders">
+                            <i class="sidebar-icon fas fa-shopping-cart"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('products')" data-page="products">
+                            <i class="sidebar-icon fas fa-box"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('payments')" data-page="payments">
+                            <i class="sidebar-icon fas fa-credit-card"></i>
+                            <span>Payment Methods</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('news')" data-page="news">
+                            <i class="sidebar-icon fas fa-newspaper"></i>
+                            <span>News</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" onclick="showPage('settings')" data-page="settings">
+                            <i class="sidebar-icon fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-            <!-- Dashboard -->
-            <div class="dashboard">
-                <!-- Sidebar -->
-                <div class="sidebar">
-                    <h3 class="sidebar-title">ADMIN PANEL</h3>
-                    <ul class="sidebar-menu">
-                        <li class="sidebar-item">
-                            <div class="sidebar-link active" onclick="showPage('dashboard')">
-                                <span class="sidebar-icon">📊</span>
-                                Dashboard
+            <!-- Main Content -->
+            <main class="main-content">
+                <!-- Overview Page -->
+                <div id="overviewPage" class="page-content active">
+                    <div class="content-header">
+                        <h1 class="content-title">Dashboard Overview</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="stats-grid" id="statsGrid">
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalUsers">Loading...</div>
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-change positive">+12% from last month</div>
                             </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('orders')">
-                                <span class="sidebar-icon">📦</span>
-                                Orders
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalOrders">Loading...</div>
+                                <div class="stat-label">Total Orders</div>
+                                <div class="stat-change positive">+8% from last month</div>
                             </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('products')">
-                                <span class="sidebar-icon">🎮</span>
-                                Products
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalRevenue">Loading...</div>
+                                <div class="stat-label">Total Revenue</div>
+                                <div class="stat-change positive">+15% from last month</div>
                             </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('categories')">
-                                <span class="sidebar-icon">📁</span>
-                                Categories
+                            <div class="stat-card">
+                                <div class="stat-number" id="totalProducts">Loading...</div>
+                                <div class="stat-label">Active Products</div>
+                                <div class="stat-change neutral">Same as last month</div>
                             </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('payment-methods')">
-                                <span class="sidebar-icon">💳</span>
-                                Payment Methods
-                            </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('news')">
-                                <span class="sidebar-icon">📰</span>
-                                News
-                            </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('users')">
-                                <span class="sidebar-icon">👥</span>
-                                Users
-                            </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('settings')">
-                                <span class="sidebar-icon">⚙️</span>
-                                Settings
-                            </div>
-                        </li>
-                        <li class="sidebar-item">
-                            <div class="sidebar-link" onclick="showPage('about')">
-                                <span class="sidebar-icon">ℹ️</span>
-                                About
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Main Content -->
-                <div class="main-content">
-                    <!-- Dashboard Page -->
-                    <div id="dashboardPage" class="page-content active">
-                        <div class="content-header">
-                            <h1 class="content-title">Dashboard</h1>
                         </div>
-                        <div class="content-body">
-                            <div class="stats-grid" id="dashboardStats">
-                                <!-- Stats will be loaded here -->
-                            </div>
-                            <div class="form-section">
-                                <h3 class="form-title">Recent Orders</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order Number</th>
-                                                <th>User</th>
-                                                <th>Product</th>
-                                                <th>Amount</th>
-                                                <th>Status</th>
-                                                <th>Date</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="recentOrdersTable">
-                                            <!-- Recent orders will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
+
+                        <div class="form-section">
+                            <h3 class="form-title">Recent Orders</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order ID</th>
+                                            <th>User</th>
+                                            <th>Product</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentOrdersTable">
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                     <!-- Orders Page -->
-                    <div id="ordersPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Orders Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <div class="form-section">
-                                <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px;">
-                                    <select class="form-select" id="orderStatusFilter" style="width: auto;" onchange="filterOrders()">
-                                        <option value="">All Orders</option>
-                                        <option value="pending">Pending</option>
-                                        <option value="approved">Approved</option>
-                                        <option value="rejected">Rejected</option>
-                                    </select>
-                                    <button class="btn btn-secondary" onclick="refreshOrders()">Refresh</button>
-                                </div>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Order Number</th>
-                                                <th>User</th>
-                                                <th>Product</th>
-                                                <th>Game ID</th>
-                                                <th>Amount</th>
-                                                <th>Total Price</th>
-                                                <th>Payment Method</th>
-                                                <th>Status</th>
-                                                <th>Date</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="ordersTable">
-                                            <!-- Orders will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
+                <!-- Users Page -->
+                <div id="usersPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">User Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">All Users</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Email</th>
+                                            <th>IP Address</th>
+                                            <th>Created</th>
+                                            <th>Last Login</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTable">
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Products Page -->
-                    <div id="productsPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Products Management</h1>
+                <!-- Orders Page -->
+                <div id="ordersPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Order Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">All Orders</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order Number</th>
+                                            <th>User</th>
+                                            <th>Product</th>
+                                            <th>Amount</th>
+                                            <th>Price</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="ordersTable">
+                                        <tr>
+                                            <td colspan="7" style="text-align: center;">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="content-body">
-                            <form id="productForm" class="form-section">
-                                <h3 class="form-title">Add/Edit Product</h3>
-                                <input type="hidden" id="productId">
+                    </div>
+                </div>
+
+                <!-- Products Page -->
+                <div id="productsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Product Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">Add New Product</h3>
+                            <form id="productForm" onsubmit="handleAddProduct(event)">
                                 <div class="form-grid">
                                     <div class="form-group">
                                         <label class="form-label">Product Name</label>
-                                        <input type="text" class="form-input" id="productName" required>
+                                        <input type="text" class="form-input" name="name" placeholder="Enter product name" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Product Type</label>
-                                        <select class="form-select" id="productType" required>
+                                        <select class="form-select" name="product_type" required>
                                             <option value="">Select Type</option>
-                                            <option value="diamond">Diamond</option>
-                                            <option value="top_up">Top Up</option>
-                                            <option value="item">Item</option>
-                                            <option value="bundle">Bundle</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Category</label>
-                                        <select class="form-select" id="productCategory" required>
-                                            <option value="">Select Category</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Sub Category</label>
-                                        <select class="form-select" id="productSubCategory">
-                                            <option value="">Select Sub Category</option>
-                                        </select>
-                                    </div>
-                                     <div class="form-group">
-                                        <label class="form-label">Price (MMK)</label>
-                                        <input type="number" class="form-input" id="productPrice" step="0.01" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Amount</label>
-                                        <input type="number" class="form-input" id="productAmount">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Stock Quantity</label>
-                                        <input type="number" class="form-input" id="productStock" value="0">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Quality</label>
-                                        <input type="text" class="form-input" id="productQuality">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="productDescription"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Product Images</label>
-                                    <div class="file-upload">
-                                        <input type="file" class="file-upload-input" id="productImages" multiple accept="image/*" onchange="handleFileUpload(this)">
-                                        <label for="productImages" class="file-upload-label">
-                                            <span class="file-upload-icon">📁</span>
-                                            <span class="file-upload-text">Select Images (Max 50MB total)</span>
-                                        </label>
-                                    </div>
-                                    <div id="filePreview" class="file-preview"></div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Product</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetProductForm()">Reset</button>
-                            </form>
-
-                            <div class="form-section">
-                                <h3 class="form-title">Products List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Type</th>
-                                                <th>Category</th>
-                                                <th>Price</th>
-                                                <th>Stock</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="productsTable">
-                                            <!-- Products will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                     <!-- Categories Page -->
-                    <div id="categoriesPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Categories Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <form id="categoryForm" class="form-section">
-                                <h3 class="form-title">Add/Edit Category</h3>
-                                <input type="hidden" id="categoryId">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Category Name</label>
-                                        <input type="text" class="form-input" id="categoryName" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Order Index</label>
-                                        <input type="number" class="form-input" id="categoryOrder" value="0">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="categoryDescription"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Icon</label>
-                                    <div class="file-upload">
-                                        <input type="file" class="file-upload-input" id="categoryIcon" accept="image/*" onchange="handleSingleFileUpload(this, 'categoryIconPreview')">
-                                        <label for="categoryIcon" class="file-upload-label">
-                                            <span class="file-upload-icon">📁</span>
-                                            <span class="file-upload-text">Select Icon</span>
-                                        </label>
-                                    </div>
-                                    <div id="categoryIconPreview"></div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Category</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetCategoryForm()">Reset</button>
-                            </form>
-
-                            <form id="subCategoryForm" class="form-section">
-                                <h3 class="form-title">Add/Edit Sub Category</h3>
-                                <input type="hidden" id="subCategoryId">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Parent Category</label>
-                                        <select class="form-select" id="subCategoryParent" required>
-                                            <option value="">Select Parent Category</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Sub Category Name</label>
-                                        <input type="text" class="form-input" id="subCategoryName" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Order Index</label>
-                                        <input type="number" class="form-input" id="subCategoryOrder" value="0">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="subCategoryDescription"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Sub Category</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetSubCategoryForm()">Reset</button>
-                            </form>
-
-                             <div class="form-section">
-                                <h3 class="form-title">Categories List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Description</th>
-                                                <th>Order</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="categoriesTable">
-                                            <!-- Categories will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Methods Page -->
-                    <div id="payment-methodsPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Payment Methods Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <form id="paymentMethodForm" class="form-section">
-                                <h3 class="form-title">Add/Edit Payment Method</h3>
-                                <input type="hidden" id="paymentMethodId">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Payment Method Name</label>
-                                        <input type="text" class="form-input" id="paymentMethodName" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Payment Type</label>
-                                        <select class="form-select" id="paymentMethodType" required>
-                                            <option value="manual">Manual</option>
-                                            <option value="automatic">Automatic</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Address/Account</label>
-                                        <input type="text" class="form-input" id="paymentMethodAddress" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Order Index</label>
-                                        <input type="number" class="form-input" id="paymentMethodOrder" value="0">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="paymentMethodDescription"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Icon</label>
-                                    <div class="file-upload">
-                                        <input type="file" class="file-upload-input" id="paymentMethodIcon" accept="image/*" onchange="handleSingleFileUpload(this, 'paymentMethodIconPreview')">
-                                        <label for="paymentMethodIcon" class="file-upload-label">
-                                            <span class="file-upload-icon">📁</span>
-                                            <span class="file-upload-text">Select Icon</span>
-                                        </label>
-                                    </div>
-                                    <div id="paymentMethodIconPreview"></div>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Payment Method</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetPaymentMethodForm()">Reset</button>
-                            </form>
-
-                              <div class="form-section">
-                                <h3 class="form-title">Payment Methods List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Type</th>
-                                                <th>Address</th>
-                                                <th>Order</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="paymentMethodsTable">
-                                            <!-- Payment methods will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- News Page -->
-                    <div id="newsPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">News Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <form id="newsForm" class="form-section">
-                                <h3 class="form-title">Add/Edit News</h3>
-                                <input type="hidden" id="newsId">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-input" id="newsTitle" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Platform</label>
-                                        <select class="form-select" id="newsPlatform" required>
-                                            <option value="">Select Platform</option>
-                                            <option value="youtube">YouTube</option>
-                                            <option value="facebook">Facebook</option>
-                                            <option value="tiktok">TikTok</option>
+                                            <option value="uc">PUBG UC</option>
+                                            <option value="diamond">ML Diamond</option>
+                                            <option value="account">Game Account</option>
                                             <option value="other">Other</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Video URL</label>
-                                        <input type="url" class="form-input" id="newsVideoUrl" required>
+                                        <label class="form-label">Amount</label>
+                                        <input type="number" class="form-input" name="amount" placeholder="Enter amount">
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Telegram Link</label>
-                                        <input type="url" class="form-input" id="newsTelegramLink">
+                                        <label class="form-label">Price</label>
+                                        <input type="number" class="form-input" name="price" step="0.01" placeholder="Enter price" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="newsDescription"></textarea>
+                                    <textarea class="form-textarea" name="description" placeholder="Enter product description"></textarea>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Save News</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetNewsForm()">Reset</button>
-                            </form>
-
-                              <div class="form-section">
-                                <h3 class="form-title">News List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Platform</th>
-                                                <th>Views</th>
-                                                <th>Status</th>
-                                                <th>Created</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="newsTable">
-                                            <!-- News will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Users Page -->
-                    <div id="usersPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Users Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <div class="form-section">
-                                <h3 class="form-title">Users List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Email</th>
-                                                <th>Join Date</th>
-                                                <th>Last Login</th>
-                                                <th>Total Orders</th>
-                                                <th>Total Spent</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="usersTable">
-                                            <!-- Users will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                      <!-- Settings Page -->
-                    <div id="settingsPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">Website Settings</h1>
-                        </div>
-                        <div class="content-body">
-                            <form id="settingsForm" class="form-section">
-                                <h3 class="form-title">Website Settings</h3>
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Site Name</label>
-                                        <input type="text" class="form-input" id="siteName">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Site Logo URL</label>
-                                        <input type="url" class="form-input" id="siteLogo">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Contact Email</label>
-                                        <input type="email" class="form-input" id="contactEmail">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Contact Phone</label>
-                                        <input type="tel" class="form-input" id="contactPhone">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Telegram Link</label>
-                                        <input type="url" class="form-input" id="telegramLink">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Facebook Link</label>
-                                        <input type="url" class="form-input" id="facebookLink">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Site Description</label>
-                                    <textarea class="form-textarea" id="siteDescription"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                                <button type="submit" class="btn btn-primary">Add Product</button>
                             </form>
                         </div>
-                    </div>
 
-                    <!-- About Page -->
-                    <div id="aboutPage" class="page-content">
-                        <div class="content-header">
-                            <h1 class="content-title">About Content Management</h1>
-                        </div>
-                        <div class="content-body">
-                            <form id="aboutForm" class="form-section">
-                                <h3 class="form-title">Add/Edit About Content</h3>
-                                <input type="hidden" id="aboutId">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label class="form-label">Title</label>
-                                        <input type="text" class="form-input" id="aboutTitle" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Link</label>
-                                        <input type="url" class="form-input" id="aboutLink" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Order Index</label>
-                                        <input type="number" class="form-input" id="aboutOrder" value="0">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Icon URL</label>
-                                        <input type="url" class="form-input" id="aboutIconUrl">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Description</label>
-                                    <textarea class="form-textarea" id="aboutDescription"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Save About Content</button>
-                                <button type="button" class="btn btn-secondary" onclick="resetAboutForm()">Reset</button>
-                            </form>
-
-                              <div class="form-section">
-                                <h3 class="form-title">About Content List</h3>
-                                <div class="table-container">
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>Title</th>
-                                                <th>Link</th>
-                                                <th>Order</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="aboutTable">
-                                            <!-- About content will be loaded here -->
-                                        </tbody>
-                                    </table>
-                                </div>
+                        <div class="form-section">
+                            <h3 class="form-title">All Products</h3>
+                            <div class="table-container">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Price</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="productsTable">
+                                        <tr>
+                                            <td colspan="6" style="text-align: center;">Loading...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <!-- Settings Page -->
+                <div id="settingsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Website Settings</h1>
+                    </div>
+                    <div class="content-body">
+                        <div class="form-section">
+                            <h3 class="form-title">General Settings</h3>
+                            <form id="settingsForm" onsubmit="handleUpdateSettings(event)">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">Website Name</label>
+                                        <input type="text" class="form-input" name="website_name" id="websiteNameInput" placeholder="Enter website name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Logo URL</label>
+                                        <input type="url" class="form-input" name="logo_url" id="logoUrlInput" placeholder="Enter logo URL">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Update Settings</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other pages placeholders -->
+                <div id="paymentsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">Payment Methods</h1>
+                    </div>
+                    <div class="content-body">
+                        <p>Payment methods management coming soon...</p>
+                    </div>
+                </div>
+
+                <div id="newsPage" class="page-content">
+                    <div class="content-header">
+                        <h1 class="content-title">News Management</h1>
+                    </div>
+                    <div class="content-body">
+                        <p>News management coming soon...</p>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <span id="notificationText"></span>
+    </div>
+
     <script>
+        // ========================================
+        // CONFIGURATION & INITIALIZATION
+        // ========================================
+
+        // Supabase Configuration (Same as main website)
+        const SUPABASE_URL = 'https://znkufcnbhspupmgzacca.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpua3VmY25iaHNwdXBtZ3phY2NhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg2NjQ4MTYsImV4cCI6MjA3NDI0MDgxNn0.1PPg_PHc9KK2qLHYy4nvbi7a_i5ju4VFbjnlEBtZCdQ';
+
         // Initialize Supabase
-        const supabaseUrl = 'https://znkufcnbhspupmgzacca.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpua3VmY25iaHNwdXBtZ3phY2NhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg2NjQ4MTYsImV4cCI6MjA3NDI0MDgxNn0.1PPg_PHc9KK2qLHYy4nvbi7a_i5ju4VFbjnlEBtZCdQ';
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Global variables
+        // Global Variables
         let currentAdmin = null;
-        let selectedFiles = [];
-        let currentOrder = null;
+        let currentPage = 'overview';
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            checkAdminSession();
-            setupEventListeners();
-        });
+        // ========================================
+        // AUTHENTICATION
+        // ========================================
 
-        function setupEventListeners() {
-            // Login form
-            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        async function handleLogin(event) {
+            event.preventDefault();
             
-            // Product form
-            document.getElementById('productForm').addEventListener('submit', handleProductSubmit);
-            
-            // Category form
-            document.getElementById('categoryForm').addEventListener('submit', handleCategorySubmit);
-            
-            // Sub category form
-            document.getElementById('subCategoryForm').addEventListener('submit', handleSubCategorySubmit);
-            
-            // Payment method form
-            document.getElementById('paymentMethodForm').addEventListener('submit', handlePaymentMethodSubmit);
-            
-            // News form
-            document.getElementById('newsForm').addEventListener('submit', handleNewsSubmit);
-            
-            // Settings form
-            document.getElementById('settingsForm').addEventListener('submit', handleSettingsSubmit);
-            
-            // About form
-            document.getElementById('aboutForm').addEventListener('submit', handleAboutSubmit);
-        }
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            const loginText = document.getElementById('loginText');
+            const loginLoading = document.getElementById('loginLoading');
 
-        // Authentication Functions
-        function checkAdminSession() {
-            const adminSession = localStorage.getItem('adminSession');
-            if (adminSession) {
-                const adminData = JSON.parse(adminSession);
-                verifyAdminSession(adminData);
-            }
-        }
+            // Show loading state
+            loginText.style.display = 'none';
+            loginLoading.style.display = 'inline-block';
+            loginBtn.disabled = true;
 
-        async function verifyAdminSession(adminData) {
             try {
-                const { data: admin } = await supabase
-                    .from('admin')
-                    .select('*')
-                    .eq('id', adminData.adminId)
-                    .eq('is_active', true)
-                    .single();
+                console.log('Attempting login with:', username);
                 
-                if (admin) {
-                    currentAdmin = admin;
-                    showDashboard();
-                    loadDashboardData();
-                }
-            } catch (error) {
-                console.error('Session verification error:', error);
-                localStorage.removeItem('adminSession');
-            }
-        }
-
-        async function handleLogin(e) {
-            e.preventDefault();
-            
-            try {
-                const username = document.getElementById('adminUsername').value;
-                const password = document.getElementById('adminPassword').value;
-                
-                if (!username || !password) {
-                    showMessage('Username and password are required', 'error');
-                    return;
-                }
-                
-                showMessage('Logging in...', 'info');
-                
+                // Query admin table
                 const { data: admin, error } = await supabase
                     .from('admin')
                     .select('*')
@@ -1388,235 +912,393 @@
                     .eq('password', password)
                     .eq('is_active', true)
                     .single();
-                
-                if (error || !admin) {
-                    showMessage('Invalid username or password', 'error');
-                    return;
+
+                if (error) {
+                    console.error('Login error:', error);
+                    throw error;
                 }
-                
-                currentAdmin = admin;
-                localStorage.setItem('adminSession', JSON.stringify({
-                    adminId: admin.id,
-                    username: admin.username
-                }));
-                
+
+                if (!admin) {
+                    throw new Error('Invalid credentials');
+                }
+
                 // Update last login
                 await supabase
                     .from('admin')
                     .update({ last_login: new Date().toISOString() })
                     .eq('id', admin.id);
-                
+
+                // Store admin session
+                currentAdmin = admin;
+                sessionStorage.setItem('admin_session', JSON.stringify(admin));
+
+                // Show dashboard
                 showDashboard();
-                loadDashboardData();
-                showMessage('Login successful', 'success');
+                showNotification('Login successful!', 'success');
                 
+                console.log('Login successful for admin:', admin.username);
+
             } catch (error) {
-                console.error('Login error:', error);
-                showMessage('Login failed. Please try again.', 'error');
+                console.error('Login failed:', error);
+                showNotification('Invalid username or password', 'error');
+            } finally {
+                // Reset button state
+                loginText.style.display = 'inline';
+                loginLoading.style.display = 'none';
+                loginBtn.disabled = false;
             }
         }
 
         function showDashboard() {
             document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('dashboardSection').style.display = 'grid';
+            document.getElementById('dashboard').style.display = 'grid';
+            document.getElementById('adminInfo').style.display = 'flex';
+            document.getElementById('adminName').textContent = currentAdmin.username;
             
-            if (currentAdmin) {
-                document.getElementById('currentAdminName').textContent = currentAdmin.username;
-            }
+            // Load dashboard data
+            loadDashboardData();
         }
 
         function logout() {
-            localStorage.removeItem('adminSession');
             currentAdmin = null;
-            location.reload();
+            sessionStorage.removeItem('admin_session');
+            
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('adminInfo').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'flex';
+            
+            // Reset form
+            document.getElementById('loginForm').reset();
+            
+            showNotification('Logged out successfully', 'success');
         }
 
-        // Navigation Functions
-        function showPage(pageName) {
+        // Check for existing session on page load
+        function checkAdminSession() {
+            const session = sessionStorage.getItem('admin_session');
+            if (session) {
+                try {
+                    currentAdmin = JSON.parse(session);
+                    showDashboard();
+                } catch (error) {
+                    console.error('Invalid session data:', error);
+                    sessionStorage.removeItem('admin_session');
+                }
+            }
+        }
+
+        // ========================================
+        // PAGE NAVIGATION
+        // ========================================
+
+        function showPage(pageId) {
+            // Update current page
+            currentPage = pageId;
+            
             // Hide all pages
             document.querySelectorAll('.page-content').forEach(page => {
                 page.classList.remove('active');
             });
             
             // Show selected page
-            document.getElementById(pageName + 'Page').classList.add('active');
+            const targetPage = document.getElementById(pageId + 'Page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
             
-            // Update sidebar
+            // Update sidebar active state
             document.querySelectorAll('.sidebar-link').forEach(link => {
                 link.classList.remove('active');
+                if (link.dataset.page === pageId) {
+                    link.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
             
-            // Load page data
-            loadPageData(pageName);
+            // Load page-specific data
+            loadPageData(pageId);
         }
 
-        function loadPageData(pageName) {
-            switch(pageName) {
-                case 'dashboard':
-                    loadDashboardData();
-                    break;
-                case 'orders':
-                    loadOrders();
-                    break;
-                case 'products':
-                    loadProducts();
-                    loadCategories();
-                    break;
-                case 'categories':
-                    loadCategories();
-                    break;
-                case 'payment-methods':
-                    loadPaymentMethods();
-                    break;
-                case 'news':
-                    loadNews();
-                    break;
-                case 'users':
-                    loadUsers();
-                    break;
-                case 'settings':
-                    loadSettings();
-                    break;
-                case 'about':
-                    loadAboutContent();
-                    break;
-            }
-        }
+        // ========================================
+        // DATA LOADING
+        // ========================================
 
-        // Dashboard Functions
         async function loadDashboardData() {
             try {
                 // Load statistics
-                const [ordersRes, usersRes, productsRes] = await Promise.all([
-                    supabase.from('orders').select('*'),
-                    supabase.from('users').select('*'),
-                    supabase.from('products').select('*')
-                ]);
+                await loadStatistics();
                 
-                const orders = ordersRes.data || [];
-                const users = usersRes.data || [];
-                const products = productsRes.data || [];
-                
-                const stats = {
-                    totalOrders: orders.length,
-                    pendingOrders: orders.filter(o => o.status === 'pending').length,
-                    approvedOrders: orders.filter(o => o.status === 'approved').length,
-                    totalUsers: users.length,
-                    totalProducts: products.length,
-                    activeProducts: products.filter(p => p.is_active).length,
-                    totalRevenue: orders
-                        .filter(o => o.status === 'approved')
-                        .reduce((sum, o) => sum + parseFloat(o.total_price || 0), 0)
-                };
-                
-                displayDashboardStats(stats);
-                loadRecentOrders();
+                // Load recent orders
+                await loadRecentOrders();
                 
             } catch (error) {
                 console.error('Error loading dashboard data:', error);
             }
         }
 
-        function displayDashboardStats(stats) {
-            const statsContainer = document.getElementById('dashboardStats');
-            statsContainer.innerHTML = `
-                <div class="stat-card">
-                    <div class="stat-number">${stats.totalOrders}</div>
-                    <div class="stat-label">Total Orders</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.pendingOrders}</div>
-                    <div class="stat-label">Pending Orders</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.approvedOrders}</div>
-                    <div class="stat-label">Approved Orders</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.totalUsers}</div>
-                    <div class="stat-label">Total Users</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.totalProducts}</div>
-                    <div class="stat-label">Total Products</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">${stats.totalRevenue.toFixed(2)} MMK</div>
-                    <div class="stat-label">Total Revenue</div>
-                </div>
-            `;
+        async function loadStatistics() {
+            try {
+                // Get total users
+                const { count: userCount } = await supabase
+                    .from('users')
+                    .select('*', { count: 'exact', head: true });
+                
+                // Get total orders
+                const { count: orderCount } = await supabase
+                    .from('orders')
+                    .select('*', { count: 'exact', head: true });
+                
+                // Get total revenue
+                const { data: revenueData } = await supabase
+                    .from('orders')
+                    .select('total_price')
+                    .eq('status', 'completed');
+                
+                const totalRevenue = revenueData?.reduce((sum, order) => sum + parseFloat(order.total_price || 0), 0) || 0;
+                
+                // Get total products
+                const { count: productCount } = await supabase
+                    .from('products')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('is_active', true);
+                
+                // Update UI
+                document.getElementById('totalUsers').textContent = userCount || 0;
+                document.getElementById('totalOrders').textContent = orderCount || 0;
+                document.getElementById('totalRevenue').textContent = `${totalRevenue.toFixed(0)} MMK`;
+                document.getElementById('totalProducts').textContent = productCount || 0;
+                
+            } catch (error) {
+                console.error('Error loading statistics:', error);
+                document.getElementById('totalUsers').textContent = 'Error';
+                document.getElementById('totalOrders').textContent = 'Error';
+                document.getElementById('totalRevenue').textContent = 'Error';
+                document.getElementById('totalProducts').textContent = 'Error';
+            }
         }
 
         async function loadRecentOrders() {
+            const table = document.getElementById('recentOrdersTable');
+            
             try {
-                const { data: orders } = await supabase
-                    .from('orders_summary')
-                    .select('*')
+                const { data: orders, error } = await supabase
+                    .from('orders')
+                    .select(`
+                        *,
+                        users (email),
+                        products (name)
+                    `)
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(5);
                 
-                const tableBody = document.getElementById('recentOrdersTable');
+                if (error) throw error;
+                
                 if (orders && orders.length > 0) {
-                    tableBody.innerHTML = orders.map(order => `
+                    table.innerHTML = orders.map(order => `
                         <tr>
-                            <td>${order.order_number}</td>
-                            <td>${order.user_email}</td>
-                            <td>${order.product_name}</td>
+                            <td>#${order.order_number}</td>
+                            <td>${order.users?.email || 'Unknown'}</td>
+                            <td>${order.products?.name || 'Unknown'}</td>
                             <td>${order.amount || '-'}</td>
                             <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                            <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                            <td>${formatDate(order.created_at)}</td>
                         </tr>
                     `).join('');
                 } else {
-                    tableBody.innerHTML = '<tr><td colspan="6">No orders found</td></tr>';
+                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No orders found</td></tr>';
                 }
+                
             } catch (error) {
                 console.error('Error loading recent orders:', error);
+                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
             }
         }
 
-        // Orders Functions
-        async function loadOrders() {
+        async function loadPageData(pageId) {
+            switch(pageId) {
+                case 'users':
+                    await loadUsersData();
+                    break;
+                case 'orders':
+                    await loadOrdersData();
+                    break;
+                case 'products':
+                    await loadProductsData();
+                    break;
+                case 'settings':
+                    await loadSettingsData();
+                    break;
+            }
+        }
+
+        async function loadUsersData() {
+            const table = document.getElementById('usersTable');
+            
             try {
-                const { data: orders } = await supabase
-                    .from('orders_summary')
+                const { data: users, error } = await supabase
+                    .from('users')
                     .select('*')
                     .order('created_at', { ascending: false });
                 
-                displayOrdersTable(orders);
+                if (error) throw error;
+                
+                if (users && users.length > 0) {
+                    table.innerHTML = users.map(user => `
+                        <tr>
+                            <td>${user.id.substring(0, 8)}...</td>
+                            <td>${user.email}</td>
+                            <td>${user.ip_address}</td>
+                            <td>${formatDate(user.created_at)}</td>
+                            <td>${formatDate(user.last_login)}</td>
+                            <td><span class="status-badge ${user.is_active ? 'status-completed' : 'status-rejected'}">${user.is_active ? 'Active' : 'Inactive'}</span></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No users found</td></tr>';
+                }
+                
             } catch (error) {
-                console.error('Error loading orders:', error);
+                console.error('Error loading users:', error);
+                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
             }
         }
 
-        function displayOrdersTable(orders) {
-            const tableBody = document.getElementById('ordersTable');
-            if (orders && orders.length > 0) {
-                tableBody.innerHTML = orders.map(order => `
-                    <tr>
-                        <td>${order.order_number}</td>
-                        <td>${order.user_email}</td>
-                        <td>${order.product_name}</td>
-                        <td>${order.game_id || '-'}</td>
-                        <td>${order.amount || '-'}</td>
-                        <td>${order.total_price} ${order.currency}</td>
-                        <td>${order.payment_method || '-'}</td>
-                        <td><span class="status-badge status-${order.status}">${order.status}</span></td>
-                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="viewOrder('${order.id}')">View</button>
-                                ${order.status === 'pending' ? `
-                                    <button class="btn btn-success btn-small" onclick="updateOrderStatus('${order.id}', 'approved')">Approve</button>
-                                    <button class="btn btn-danger btn-small" onclick="updateOrderStatus('${order.id}', 'rejected')">Reject</button>
-                                ` : ''}
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="10">No orders found</td></tr>';
+        async function loadOrdersData() {
+            const table = document.getElementById('ordersTable');
+            
+            try {
+                const { data: orders, error } = await supabase
+                    .from('orders')
+                    .select(`
+                        *,
+                        users (email),
+                        products (name)
+                    `)
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                if (orders && orders.length > 0) {
+                    table.innerHTML = orders.map(order => `
+                        <tr>
+                            <td>#${order.order_number}</td>
+                            <td>${order.users?.email || 'Unknown'}</td>
+                            <td>${order.products?.name || 'Unknown'}</td>
+                            <td>${order.amount || '-'}</td>
+                            <td>${order.total_price} ${order.currency}</td>
+                            <td><span class="status-badge status-${order.status}">${order.status}</span></td>
+                            <td>
+                                <button class="btn btn-small btn-primary" onclick="updateOrderStatus('${order.id}', 'approved')">Approve</button>
+                                <button class="btn btn-small btn-danger" onclick="updateOrderStatus('${order.id}', 'rejected')">Reject</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    table.innerHTML = '<tr><td colspan="7" style="text-align: center;">No orders found</td></tr>';
+                }
+                
+            } catch (error) {
+                console.error('Error loading orders:', error);
+                table.innerHTML = '<tr><td colspan="7" style="text-align: center;">Error loading data</td></tr>';
+            }
+        }
+
+        async function loadProductsData() {
+            const table = document.getElementById('productsTable');
+            
+            try {
+                const { data: products, error } = await supabase
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                if (products && products.length > 0) {
+                    table.innerHTML = products.map(product => `
+                        <tr>
+                            <td>${product.name}</td>
+                            <td>${product.product_type}</td>
+                            <td>${product.amount || '-'}</td>
+                            <td>${product.price} ${product.currency}</td>
+                            <td><span class="status-badge ${product.is_active ? 'status-completed' : 'status-rejected'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
+                            <td>
+                                <button class="btn btn-small btn-secondary" onclick="toggleProductStatus('${product.id}', ${!product.is_active})">
+                                    ${product.is_active ? 'Deactivate' : 'Activate'}
+                                </button>
+                                <button class="btn btn-small btn-danger" onclick="deleteProduct('${product.id}')">Delete</button>
+                            </td>
+                        </tr>
+                    `).join('');
+                } else {
+                    table.innerHTML = '<tr><td colspan="6" style="text-align: center;">No products found</td></tr>';
+                }
+                
+            } catch (error) {
+                console.error('Error loading products:', error);
+                table.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error loading data</td></tr>';
+            }
+        }
+
+        async function loadSettingsData() {
+            try {
+                const { data: settings, error } = await supabase
+                    .from('website_settings')
+                    .select('*');
+                
+                if (error) throw error;
+                
+                // Populate form fields
+                if (settings) {
+                    settings.forEach(setting => {
+                        switch(setting.setting_key) {
+                            case 'website_name':
+                                document.getElementById('websiteNameInput').value = setting.setting_value || '';
+                                break;
+                            case 'logo_url':
+                                document.getElementById('logoUrlInput').value = setting.setting_value || '';
+                                break;
+                        }
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error loading settings:', error);
+            }
+        }
+
+        // ========================================
+        // CRUD OPERATIONS
+        // ========================================
+
+        async function handleAddProduct(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const productData = {
+                name: formData.get('name'),
+                product_type: formData.get('product_type'),
+                amount: parseInt(formData.get('amount')) || null,
+                price: parseFloat(formData.get('price')),
+                description: formData.get('description') || null,
+                currency: 'MMK',
+                is_active: true,
+                created_by: currentAdmin.id
+            };
+
+            try {
+                const { error } = await supabase
+                    .from('products')
+                    .insert([productData]);
+
+                if (error) throw error;
+
+                showNotification('Product added successfully!', 'success');
+                event.target.reset();
+                await loadProductsData(); // Refresh the products table
+                
+            } catch (error) {
+                console.error('Error adding product:', error);
+                showNotification('Error adding product: ' + error.message, 'error');
             }
         }
 
@@ -1630,815 +1312,154 @@
                         processed_at: new Date().toISOString()
                     })
                     .eq('id', orderId);
-                
+
                 if (error) throw error;
-                
-                showMessage(`Order ${status} successfully`, 'success');
-                loadOrders();
+
+                showNotification(`Order ${status} successfully!`, 'success');
+                await loadOrdersData(); // Refresh the orders table
                 
             } catch (error) {
-                console.error('Error updating order status:', error);
-                showMessage('Failed to update order status', 'error');
+                console.error('Error updating order:', error);
+                showNotification('Error updating order: ' + error.message, 'error');
             }
         }
 
-        function filterOrders() {
-            const status = document.getElementById('orderStatusFilter').value;
-            loadOrders(); // Could implement actual filtering
-        }
-
-        function refreshOrders() {
-            loadOrders();
-        }
-
-        // Product Functions
-        async function loadProducts() {
+        async function toggleProductStatus(productId, isActive) {
             try {
-                const { data: products } = await supabase
+                const { error } = await supabase
                     .from('products')
-                    .select('*, categories(name), sub_categories(name)')
-                    .order('created_at', { ascending: false });
-                
-                displayProductsTable(products);
-            } catch (error) {
-                console.error('Error loading products:', error);
-            }
-        }
+                    .update({ is_active: isActive })
+                    .eq('id', productId);
 
-        function displayProductsTable(products) {
-            const tableBody = document.getElementById('productsTable');
-            if (products && products.length > 0) {
-                tableBody.innerHTML = products.map(product => `
-                    <tr>
-                        <td>${product.name}</td>
-                        <td>${product.product_type}</td>
-                        <td>${product.categories?.name || '-'}</td>
-                        <td>${product.price} ${product.currency}</td>
-                        <td>${product.stock_quantity}</td>
-                        <td><span class="status-badge ${product.is_active ? 'status-approved' : 'status-rejected'}">${product.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editProduct('${product.id}')">Edit</button>
-                                <button class="btn btn-danger btn-small" onclick="deleteProduct('${product.id}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="7">No products found</td></tr>';
-            }
-        }
+                if (error) throw error;
 
-        async function handleProductSubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const productData = {
-                    name: document.getElementById('productName').value,
-                    product_type: document.getElementById('productType').value,
-                    category_id: document.getElementById('productCategory').value || null,
-                    sub_category_id: document.getElementById('productSubCategory').value || null,
-                    price: parseFloat(document.getElementById('productPrice').value),
-                    amount: parseInt(document.getElementById('productAmount').value) || null,
-                    stock_quantity: parseInt(document.getElementById('productStock').value) || 0,
-                    quality: document.getElementById('productQuality').value,
-                    description: document.getElementById('productDescription').value,
-                    created_by: currentAdmin.id
-                };
-
-                // Upload images if any
-                if (selectedFiles.length > 0) {
-                    const imageUrls = await uploadFiles(selectedFiles);
-                    productData.images = imageUrls;
-                    productData.image_sizes = selectedFiles.map(file => file.size);
-                }
-
-                const productId = document.getElementById('productId').value;
-                
-                if (productId) {
-                    // Update existing product
-                    const { error } = await supabase
-                        .from('products')
-                        .update(productData)
-                        .eq('id', productId);
-                    
-                    if (error) throw error;
-                    showMessage('Product updated successfully', 'success');
-                } else {
-                    // Create new product
-                    const { error } = await supabase
-                        .from('products')
-                        .insert(productData);
-                    
-                    if (error) throw error;
-                    showMessage('Product created successfully', 'success');
-                }
-
-                resetProductForm();
-                loadProducts();
+                showNotification(`Product ${isActive ? 'activated' : 'deactivated'} successfully!`, 'success');
+                await loadProductsData(); // Refresh the products table
                 
             } catch (error) {
-                console.error('Error saving product:', error);
-                showMessage('Failed to save product', 'error');
+                console.error('Error updating product:', error);
+                showNotification('Error updating product: ' + error.message, 'error');
             }
         }
 
-        function resetProductForm() {
-            document.getElementById('productForm').reset();
-            document.getElementById('productId').value = '';
-            selectedFiles = [];
-            document.getElementById('filePreview').innerHTML = '';
-        }
-
-        // Category Functions
-        async function loadCategories() {
-            try {
-                const { data: categories } = await supabase
-                    .from('categories')
-                    .select('*')
-                    .order('order_index', { ascending: true });
-                
-                // Update product category dropdown
-                const productCategorySelect = document.getElementById('productCategory');
-                const subCategoryParentSelect = document.getElementById('subCategoryParent');
-                
-                if (productCategorySelect && categories) {
-                    productCategorySelect.innerHTML = '<option value="">Select Category</option>' +
-                        categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-                }
-                
-                if (subCategoryParentSelect && categories) {
-                    subCategoryParentSelect.innerHTML = '<option value="">Select Parent Category</option>' +
-                        categories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
-                }
-                
-                displayCategoriesTable(categories);
-                loadSubCategories();
-                
-            } catch (error) {
-                console.error('Error loading categories:', error);
-            }
-        }
-
-        async function loadSubCategories() {
-            try {
-                const { data: subCategories } = await supabase
-                    .from('sub_categories')
-                    .select('*, categories(name)')
-                    .order('order_index', { ascending: true });
-                
-                // Update product sub-category dropdown based on selected category
-                const categorySelect = document.getElementById('productCategory');
-                const subCategorySelect = document.getElementById('productSubCategory');
-                
-                if (categorySelect && subCategorySelect && subCategories) {
-                    categorySelect.addEventListener('change', function() {
-                        const selectedCategoryId = this.value;
-                        const filteredSubCategories = subCategories.filter(sub => sub.category_id === selectedCategoryId);
-                        
-                        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' +
-                            filteredSubCategories.map(sub => `<option value="${sub.id}">${sub.name}</option>`).join('');
-                    });
-                }
-                
-            } catch (error) {
-                console.error('Error loading sub categories:', error);
-            }
-        }
-
-        function displayCategoriesTable(categories) {
-            const tableBody = document.getElementById('categoriesTable');
-            if (categories && categories.length > 0) {
-                tableBody.innerHTML = categories.map(category => `
-                    <tr>
-                        <td>${category.name}</td>
-                        <td>${category.description || '-'}</td>
-                        <td>${category.order_index}</td>
-                        <td><span class="status-badge ${category.is_active ? 'status-approved' : 'status-rejected'}">${category.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editCategory('${category.id}')">Edit</button>
-                                <button class="btn btn-danger btn-small" onclick="deleteCategory('${category.id}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="5">No categories found</td></tr>';
-            }
-        }
-
-        async function handleCategorySubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const categoryData = {
-                    name: document.getElementById('categoryName').value,
-                    description: document.getElementById('categoryDescription').value,
-                    order_index: parseInt(document.getElementById('categoryOrder').value) || 0
-                };
-
-                const categoryId = document.getElementById('categoryId').value;
-                
-                if (categoryId) {
-                    const { error } = await supabase
-                        .from('categories')
-                        .update(categoryData)
-                        .eq('id', categoryId);
-                    
-                    if (error) throw error;
-                    showMessage('Category updated successfully', 'success');
-                } else {
-                    const { error } = await supabase
-                        .from('categories')
-                        .insert(categoryData);
-                    
-                    if (error) throw error;
-                    showMessage('Category created successfully', 'success');
-                }
-
-                resetCategoryForm();
-                loadCategories();
-                
-            } catch (error) {
-                console.error('Error saving category:', error);
-                showMessage('Failed to save category', 'error');
-            }
-        }
-
-        function resetCategoryForm() {
-            document.getElementById('categoryForm').reset();
-            document.getElementById('categoryId').value = '';
-            document.getElementById('categoryIconPreview').innerHTML = '';
-        }
-
-        async function handleSubCategorySubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const subCategoryData = {
-                    category_id: document.getElementById('subCategoryParent').value,
-                    name: document.getElementById('subCategoryName').value,
-                    description: document.getElementById('subCategoryDescription').value,
-                    order_index: parseInt(document.getElementById('subCategoryOrder').value) || 0
-                };
-
-                const subCategoryId = document.getElementById('subCategoryId').value;
-                
-                if (subCategoryId) {
-                    const { error } = await supabase
-                        .from('sub_categories')
-                        .update(subCategoryData)
-                        .eq('id', subCategoryId);
-                    
-                    if (error) throw error;
-                    showMessage('Sub category updated successfully', 'success');
-                } else {
-                    const { error } = await supabase
-                        .from('sub_categories')
-                        .insert(subCategoryData);
-                    
-                    if (error) throw error;
-                    showMessage('Sub category created successfully', 'success');
-                }
-
-                resetSubCategoryForm();
-                loadCategories();
-                
-            } catch (error) {
-                console.error('Error saving sub category:', error);
-                showMessage('Failed to save sub category', 'error');
-            }
-        }
-
-        function resetSubCategoryForm() {
-            document.getElementById('subCategoryForm').reset();
-            document.getElementById('subCategoryId').value = '';
-        }
-
-        // Payment Methods Functions
-        async function loadPaymentMethods() {
-            try {
-                const { data: paymentMethods } = await supabase
-                    .from('payment_methods')
-                    .select('*')
-                    .order('order_index', { ascending: true });
-                
-                displayPaymentMethodsTable(paymentMethods);
-            } catch (error) {
-                console.error('Error loading payment methods:', error);
-            }
-        }
-
-        function displayPaymentMethodsTable(paymentMethods) {
-            const tableBody = document.getElementById('paymentMethodsTable');
-            if (paymentMethods && paymentMethods.length > 0) {
-                tableBody.innerHTML = paymentMethods.map(method => `
-                    <tr>
-                        <td>${method.name}</td>
-                        <td>${method.payment_type}</td>
-                        <td>${method.address}</td>
-                        <td>${method.order_index}</td>
-                        <td><span class="status-badge ${method.is_active ? 'status-approved' : 'status-rejected'}">${method.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editPaymentMethod('${method.id}')">Edit</button>
-                                <button class="btn btn-danger btn-small" onclick="deletePaymentMethod('${method.id}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="6">No payment methods found</td></tr>';
-            }
-        }
-
-        async function handlePaymentMethodSubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const paymentMethodData = {
-                    name: document.getElementById('paymentMethodName').value,
-                    payment_type: document.getElementById('paymentMethodType').value,
-                    address: document.getElementById('paymentMethodAddress').value,
-                    description: document.getElementById('paymentMethodDescription').value,
-                    order_index: parseInt(document.getElementById('paymentMethodOrder').value) || 0,
-                    created_by: currentAdmin.id
-                };
-
-                const paymentMethodId = document.getElementById('paymentMethodId').value;
-                
-                if (paymentMethodId) {
-                    const { error } = await supabase
-                        .from('payment_methods')
-                        .update(paymentMethodData)
-                        .eq('id', paymentMethodId);
-                    
-                    if (error) throw error;
-                    showMessage('Payment method updated successfully', 'success');
-                } else {
-                    const { error } = await supabase
-                        .from('payment_methods')
-                        .insert(paymentMethodData);
-
-                    if (error) throw error;
-                    showMessage('Payment method created successfully', 'success');
-                }
-
-                resetPaymentMethodForm();
-                loadPaymentMethods();
-                
-            } catch (error) {
-                console.error('Error saving payment method:', error);
-                showMessage('Failed to save payment method', 'error');
-            }
-        }
-
-        function resetPaymentMethodForm() {
-            document.getElementById('paymentMethodForm').reset();
-            document.getElementById('paymentMethodId').value = '';
-            document.getElementById('paymentMethodIconPreview').innerHTML = '';
-        }
-
-        // News Functions
-        async function loadNews() {
-            try {
-                const { data: news } = await supabase
-                    .from('news_posts')
-                    .select('*')
-                    .order('created_at', { ascending: false });
-                
-                displayNewsTable(news);
-            } catch (error) {
-                console.error('Error loading news:', error);
-            }
-        }
-
-        function displayNewsTable(news) {
-            const tableBody = document.getElementById('newsTable');
-            if (news && news.length > 0) {
-                tableBody.innerHTML = news.map(item => `
-                    <tr>
-                        <td>${item.title}</td>
-                        <td>${item.platform}</td>
-                        <td>${item.view_count}</td>
-                        <td><span class="status-badge ${item.is_active ? 'status-approved' : 'status-rejected'}">${item.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td>${new Date(item.created_at).toLocaleDateString()}</td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editNews('${item.id}')">Edit</button>
-                                <button class="btn btn-danger btn-small" onclick="deleteNews('${item.id}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="6">No news found</td></tr>';
-            }
-        }
-
-        async function handleNewsSubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const newsData = {
-                    title: document.getElementById('newsTitle').value,
-                    platform: document.getElementById('newsPlatform').value,
-                    video_url: document.getElementById('newsVideoUrl').value,
-                    telegram_link: document.getElementById('newsTelegramLink').value,
-                    description: document.getElementById('newsDescription').value,
-                    created_by: currentAdmin.id
-                };
-
-                const newsId = document.getElementById('newsId').value;
-                
-                if (newsId) {
-                    const { error } = await supabase
-                        .from('news_posts')
-                        .update(newsData)
-                        .eq('id', newsId);
-                    
-                    if (error) throw error;
-                    showMessage('News updated successfully', 'success');
-                } else {
-                    const { error } = await supabase
-                        .from('news_posts')
-                        .insert(newsData);
-                    
-                    if (error) throw error;
-                    showMessage('News created successfully', 'success');
-                }
-
-                resetNewsForm();
-                loadNews();
-                
-            } catch (error) {
-                console.error('Error saving news:', error);
-                showMessage('Failed to save news', 'error');
-            }
-        }
-
-        function resetNewsForm() {
-            document.getElementById('newsForm').reset();
-            document.getElementById('newsId').value = '';
-        }
-
-        // Users Functions
-        async function loadUsers() {
-            try {
-                const { data: users } = await supabase
-                    .from('user_statistics')
-                    .select('*')
-                    .order('join_date', { ascending: false });
-                
-                displayUsersTable(users);
-            } catch (error) {
-                console.error('Error loading users:', error);
-            }
-        }
-
-        function displayUsersTable(users) {
-            const tableBody = document.getElementById('usersTable');
-            if (users && users.length > 0) {
-                tableBody.innerHTML = users.map(user => `
-                    <tr>
-                        <td>${user.email}</td>
-                        <td>${user.join_date ? new Date(user.join_date).toLocaleDateString() : '-'}</td>
-                        <td>${user.last_login ? new Date(user.last_login).toLocaleDateString() : '-'}</td>
-                        <td>${user.total_orders || 0}</td>
-                        <td>${user.total_spent || 0} MMK</td>
-                        <td><span class="status-badge status-approved">Active</span></td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="viewUser('${user.id}')">View</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="7">No users found</td></tr>';
-            }
-        }
-
-        // Settings Functions
-        async function loadSettings() {
-            try {
-                const { data: settings } = await supabase
-                    .from('website_settings')
-                    .select('*');
-                
-                // Populate form with current settings
-                if (settings) {
-                    settings.forEach(setting => {
-                        const input = document.getElementById(setting.setting_key);
-                        if (input) {
-                            input.value = setting.setting_value || '';
-                        }
-                    });
-                }
-            } catch (error) {
-                console.error('Error loading settings:', error);
-            }
-        }
-
-        async function handleSettingsSubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const settingsData = [
-                    { key: 'siteName', value: document.getElementById('siteName').value },
-                    { key: 'siteLogo', value: document.getElementById('siteLogo').value },
-                    { key: 'contactEmail', value: document.getElementById('contactEmail').value },
-                    { key: 'contactPhone', value: document.getElementById('contactPhone').value },
-                    { key: 'telegramLink', value: document.getElementById('telegramLink').value },
-                    { key: 'facebookLink', value: document.getElementById('facebookLink').value },
-                    { key: 'siteDescription', value: document.getElementById('siteDescription').value }
-                ];
-
-                for (const setting of settingsData) {
-                    if (setting.value) {
-                        await supabase
-                            .from('website_settings')
-                            .upsert({
-                                setting_key: setting.key,
-                                setting_value: setting.value,
-                                updated_by: currentAdmin.id
-                            });
-                    }
-                }
-
-                showMessage('Settings saved successfully', 'success');
-                
-            } catch (error) {
-                console.error('Error saving settings:', error);
-                showMessage('Failed to save settings', 'error');
-            }
-        }
-
-        // About Functions
-        async function loadAboutContent() {
-            try {
-                const { data: aboutContent } = await supabase
-                    .from('about_content')
-                    .select('*')
-                    .order('order_index', { ascending: true });
-                
-                displayAboutTable(aboutContent);
-            } catch (error) {
-                console.error('Error loading about content:', error);
-            }
-        }
-
-        function displayAboutTable(aboutContent) {
-            const tableBody = document.getElementById('aboutTable');
-            if (aboutContent && aboutContent.length > 0) {
-                tableBody.innerHTML = aboutContent.map(item => `
-                    <tr>
-                        <td>${item.title}</td>
-                        <td><a href="${item.link}" target="_blank">${item.link}</a></td>
-                        <td>${item.order_index}</td>
-                        <td><span class="status-badge ${item.is_active ? 'status-approved' : 'status-rejected'}">${item.is_active ? 'Active' : 'Inactive'}</span></td>
-                        <td>
-                            <div class="table-actions">
-                                <button class="btn btn-secondary btn-small" onclick="editAbout('${item.id}')">Edit</button>
-                                <button class="btn btn-danger btn-small" onclick="deleteAbout('${item.id}')">Delete</button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } else {
-                tableBody.innerHTML = '<tr><td colspan="5">No about content found</td></tr>';
-            }
-        }
-
-        async function handleAboutSubmit(e) {
-            e.preventDefault();
-            
-            try {
-                const aboutData = {
-                    title: document.getElementById('aboutTitle').value,
-                    link: document.getElementById('aboutLink').value,
-                    description: document.getElementById('aboutDescription').value,
-                    icon_url: document.getElementById('aboutIconUrl').value,
-                    order_index: parseInt(document.getElementById('aboutOrder').value) || 0,
-                    created_by: currentAdmin.id
-                };
-
-                const aboutId = document.getElementById('aboutId').value;
-                
-                if (aboutId) {
-                    const { error } = await supabase
-                        .from('about_content')
-                        .update(aboutData)
-                        .eq('id', aboutId);
-                    
-                    if (error) throw error;
-                    showMessage('About content updated successfully', 'success');
-                } else {
-                    const { error } = await supabase
-                        .from('about_content')
-                        .insert(aboutData);
-                    
-                    if (error) throw error;
-                    showMessage('About content created successfully', 'success');
-                }
-
-                resetAboutForm();
-                loadAboutContent();
-                
-            } catch (error) {
-                console.error('Error saving about content:', error);
-                showMessage('Failed to save about content', 'error');
-            }
-        }
-
-        function resetAboutForm() {
-            document.getElementById('aboutForm').reset();
-            document.getElementById('aboutId').value = '';
-        }
-
-        // File Upload Functions
-        function handleFileUpload(input) {
-            const files = Array.from(input.files);
-            selectedFiles = [];
-            
-            files.forEach(file => {
-                if (file.size > 10485760) { // 10MB limit per file
-                    showMessage(`File ${file.name} exceeds 10MB limit`, 'error');
-                    return;
-                }
-                selectedFiles.push(file);
-            });
-            
-            const totalSize = selectedFiles.reduce((sum, file) => sum + file.size, 0);
-            if (totalSize > 52428800) { // 50MB total limit
-                showMessage('Total file size exceeds 50MB limit', 'error');
-                selectedFiles = [];
+        async function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product?')) {
                 return;
             }
-            
-            displayFilePreview();
-        }
 
-        function handleSingleFileUpload(input, previewId) {
-            const file = input.files[0];
-            if (!file) return;
-            
-            if (file.size > 10485760) { // 10MB limit
-                showMessage('File size exceeds 10MB limit', 'error');
-                input.value = '';
-                return;
-            }
-            
-            const previewContainer = document.getElementById(previewId);
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                previewContainer.innerHTML = `
-                    <div class="file-preview-item" style="max-width: 200px; margin-top: 10px;">
-                        <img src="${e.target.result}" alt="Preview" class="file-preview-img">
-                        <div class="file-preview-info">
-                            <div class="file-preview-name">${file.name}</div>
-                            <div class="file-preview-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
-                        </div>
-                    </div>
-                `;
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function displayFilePreview() {
-            const previewContainer = document.getElementById('filePreview');
-            previewContainer.innerHTML = selectedFiles.map((file, index) => `
-                <div class="file-preview-item">
-                    <img src="${URL.createObjectURL(file)}" alt="Preview" class="file-preview-img">
-                    <div class="file-preview-info">
-                        <div class="file-preview-name">${file.name}</div>
-                        <div class="file-preview-size">${(file.size / 1024 / 1024).toFixed(2)} MB</div>
-                    </div>
-                    <button class="file-preview-remove" onclick="removeFile(${index})">&times;</button>
-                </div>
-            `).join('');
-        }
-
-        function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            displayFilePreview();
-        }
-
-        async function uploadFiles(files, bucket = 'images') {
             try {
-                const uploadPromises = files.map(async (file, index) => {
-                    const fileName = `${Date.now()}_${index}_${file.name}`;
-                    const { data, error } = await supabase.storage
-                        .from(bucket)
-                        .upload(fileName, file);
-                    
-                    if (error) throw error;
-                    
-                    const { data: publicUrl } = supabase.storage
-                        .from(bucket)
-                        .getPublicUrl(fileName);
-                    
-                    return publicUrl.publicUrl;
-                });
+                const { error } = await supabase
+                    .from('products')
+                    .delete()
+                    .eq('id', productId);
+
+                if (error) throw error;
+
+                showNotification('Product deleted successfully!', 'success');
+                await loadProductsData(); // Refresh the products table
                 
-                return await Promise.all(uploadPromises);
             } catch (error) {
-                console.error('Error uploading files:', error);
-                throw error;
+                console.error('Error deleting product:', error);
+                showNotification('Error deleting product: ' + error.message, 'error');
             }
         }
 
-        // Utility Functions
-        function showMessage(message, type = 'info') {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
-            messageDiv.textContent = message;
-            document.body.appendChild(messageDiv);
+        async function handleUpdateSettings(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const websiteName = formData.get('website_name');
+            const logoUrl = formData.get('logo_url');
+
+            try {
+                // Update website name
+                if (websiteName) {
+                    await supabase
+                        .from('website_settings')
+                        .upsert({
+                            setting_key: 'website_name',
+                            setting_value: websiteName,
+                            updated_by: currentAdmin.id
+                        });
+                }
+
+                // Update logo URL
+                if (logoUrl) {
+                    await supabase
+                        .from('website_settings')
+                        .upsert({
+                            setting_key: 'logo_url',
+                            setting_value: logoUrl,
+                            updated_by: currentAdmin.id
+                        });
+                }
+
+                showNotification('Settings updated successfully!', 'success');
+                
+            } catch (error) {
+                console.error('Error updating settings:', error);
+                showNotification('Error updating settings: ' + error.message, 'error');
+            }
+        }
+
+        // ========================================
+        // UTILITY FUNCTIONS
+        // ========================================
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.className = `notification ${type} show`;
             
             setTimeout(() => {
-                messageDiv.remove();
+                notification.classList.remove('show');
             }, 3000);
         }
 
-        function showLoading() {
-            const loadingDiv = document.createElement('div');
-            loadingDiv.className = 'loading-overlay';
-            loadingDiv.innerHTML = '<div class="loading-spinner"></div>';
-            document.body.appendChild(loadingDiv);
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
         }
 
-        function hideLoading() {
-            const loadingDiv = document.querySelector('.loading-overlay');
-            if (loadingDiv) {
-                loadingDiv.remove();
+        // ========================================
+        // INITIALIZATION
+        // ========================================
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Admin panel loaded');
+            console.log('Supabase client initialized:', !!supabase);
+            
+            // Check for existing admin session
+            checkAdminSession();
+        });
+
+        // Test database connection
+        async function testConnection() {
+            try {
+                const { data, error } = await supabase
+                    .from('admin')
+                    .select('count')
+                    .limit(1);
+                
+                console.log('Database connection test:', error ? 'Failed' : 'Success');
+                if (error) console.error('Connection error:', error);
+                
+            } catch (error) {
+                console.error('Connection test error:', error);
             }
         }
 
-        // Placeholder functions for edit/delete actions
-        function viewOrder(orderId) {
-            showMessage('Order view functionality to be implemented', 'info');
-        }
-
-        function editProduct(productId) {
-            showMessage('Product edit functionality to be implemented', 'info');
-        }
-
-        function deleteProduct(productId) {
-            if (confirm('Are you sure you want to delete this product?')) {
-                // Implement delete functionality
-                showMessage('Product delete functionality to be implemented', 'info');
-            }
-        }
-
-        function editCategory(categoryId) {
-            showMessage('Category edit functionality to be implemented', 'info');
-        }
-
-        function deleteCategory(categoryId) {
-            if (confirm('Are you sure you want to delete this category?')) {
-                // Implement delete functionality
-                showMessage('Category delete functionality to be implemented', 'info');
-            }
-        }
-
-        function editPaymentMethod(methodId) {
-            showMessage('Payment method edit functionality to be implemented', 'info');
-        }
-
-        function deletePaymentMethod(methodId) {
-            if (confirm('Are you sure you want to delete this payment method?')) {
-                // Implement delete functionality
-                showMessage('Payment method delete functionality to be implemented', 'info');
-            }
-        }
-
-        function editNews(newsId) {
-            showMessage('News edit functionality to be implemented', 'info');
-        }
-
-        function deleteNews(newsId) {
-            if (confirm('Are you sure you want to delete this news item?')) {
-                // Implement delete functionality
-                showMessage('News delete functionality to be implemented', 'info');
-            }
-        }
-
-        function viewUser(userId) {
-            showMessage('User view functionality to be implemented', 'info');
-        }
-
-        function editAbout(aboutId) {
-            showMessage('About edit functionality to be implemented', 'info');
-        }
-
-        function deleteAbout(aboutId) {
-            if (confirm('Are you sure you want to delete this about content?')) {
-                // Implement delete functionality
-                showMessage('About delete functionality to be implemented', 'info');
-            }
-        }
+        // Test connection on load
+        testConnection();
     </script>
 </body>
 </html>
-                             
