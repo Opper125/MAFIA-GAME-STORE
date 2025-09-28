@@ -993,14 +993,14 @@ async function loadPUBGGames() {
             <div class="cyber-card game-card" onclick="showProductPage('pubgUc')">
                 <div class="card-glow"></div>
                 <div class="game-icon holographic">
-                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/923ae7dc21388b4c91484445c8183412d96538fd/assets/pubg_main_card_icon.png" alt="PUBG UC" class="main-card-icon">
+                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/blob/54371820edb4dfabbfd6563d2adaa84782711485/assets/pubg_mobile_card_icon.jpg" alt="PUBG UC" class="main-card-icon">
                 </div>
                 <div class="game-title">PUBG UC</div>
                 <div class="card-shine"></div>
             </div>
             <div class="cyber-card game-card" onclick="showProductPage('pubgAccount')">
                 <div class="card-glow"></div>
-                <div class="game-icon holographic">👤</div>
+                <div class="game-icon holographic">⚒</div>
                 <div class="game-title">PUBG Account</div>
                 <div class="card-shine"></div>
             </div>
@@ -1031,7 +1031,7 @@ async function loadMLGames() {
             </div>
             <div class="cyber-card game-card" onclick="showProductPage('mlAccount')">
                 <div class="card-glow"></div>
-                <div class="game-icon holographic">👤</div>
+                <div class="game-icon holographic">⚒</div>
                 <div class="game-title">ML Account</div>
                 <div class="card-shine"></div>
             </div>
