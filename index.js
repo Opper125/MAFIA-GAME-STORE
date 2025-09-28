@@ -992,7 +992,9 @@ async function loadPUBGGames() {
         pubgContainer.innerHTML = `
             <div class="cyber-card game-card" onclick="showProductPage('pubgUc')">
                 <div class="card-glow"></div>
-                <div class="game-icon holographic">💎</div>
+                <div class="game-icon holographic">
+                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/923ae7dc21388b4c91484445c8183412d96538fd/assets/pubg_main_card_icon.png" alt="PUBG UC" class="main-card-icon">
+                </div>
                 <div class="game-title">PUBG UC</div>
                 <div class="card-shine"></div>
             </div>
@@ -1021,7 +1023,9 @@ async function loadMLGames() {
         mlContainer.innerHTML = `
             <div class="cyber-card game-card" onclick="showProductPage('mlDiamond')">
                 <div class="card-glow"></div>
-                <div class="game-icon holographic">💎</div>
+                <div class="game-icon holographic">
+                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/923ae7dc21388b4c91484445c8183412d96538fd/assets/mobile_legends_main_card_icon.png" alt="ML Diamond" class="main-card-icon">
+                </div>
                 <div class="game-title">ML Diamond</div>
                 <div class="card-shine"></div>
             </div>
@@ -1108,6 +1112,9 @@ async function loadPUBGUCProducts() {
             container.innerHTML = products.map((product, index) => `
                 <div class="product-card cyber-card" onclick="selectProduct('${product.id}', 'pubg')" style="animation-delay: ${index * 0.1}s">
                     <div class="card-glow"></div>
+                    <div class="product-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/923ae7dc21388b4c91484445c8183412d96538fd/assets/uc.png" alt="UC" class="card-icon">
+                    </div>
                     <div class="product-amount">${product.amount} UC</div>
                     <div class="product-price">${product.price} ${product.currency}</div>
                     <div class="card-shine"></div>
@@ -1147,6 +1154,9 @@ async function loadMLDiamondProducts() {
             container.innerHTML = products.map((product, index) => `
                 <div class="product-card cyber-card" onclick="selectProduct('${product.id}', 'ml')" style="animation-delay: ${index * 0.1}s">
                     <div class="card-glow"></div>
+                    <div class="product-icon">
+                        <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/923ae7dc21388b4c91484445c8183412d96538fd/assets/mlbb_dia.png" alt="Diamond" class="card-icon">
+                    </div>
                     <div class="product-amount">${product.amount} Diamond</div>
                     <div class="product-price">${product.price} ${product.currency}</div>
                     <div class="card-shine"></div>
