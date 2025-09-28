@@ -993,7 +993,7 @@ async function loadPUBGGames() {
             <div class="cyber-card game-card" onclick="showProductPage('pubgUc')">
                 <div class="card-glow"></div>
                 <div class="game-icon holographic">
-                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/blob/54371820edb4dfabbfd6563d2adaa84782711485/assets/pubg_mobile_card_icon.jpg" alt="PUBG UC" class="main-card-icon">
+                    <img src="https://github.com/Opper125/MAFIA-GAME-STORE/raw/54371820edb4dfabbfd6563d2adaa84782711485/assets/pubg_mobile_card_icon.jpg" alt="PUBG UC" class="main-card-icon">
                 </div>
                 <div class="game-title">PUBG UC</div>
                 <div class="card-shine"></div>
